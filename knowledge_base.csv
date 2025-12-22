@@ -1,0 +1,1067 @@
+text,source,topic
+Threadsregisterscode data files stack registers registers registerscode data files stack stack stack thread thread single-threaded process multithreaded process,textbook_chunk_0,multithreading
+Figure 4.1 Single-threaded and multithreaded processes.,textbook_chunk_1,multithreading
+"A web browser might have one thread display images or text while another thread retrieves data from the network, for example.",textbook_chunk_2,multithreading
+"A word processor may have a thread for displaying graphics, another thread for responding to keystrokes from the user, and a third thread for performing spelling and grammar checking in the background.",textbook_chunk_3,multithreading
+Applications can also be designed to leverage processing capabilities on multicore systems.,textbook_chunk_4,multithreading
+Such applications can perform several CPU-intensive tasks in parallel across the multiple computing cores.,textbook_chunk_5,multithreading
+"In certain situations, a single application may be required to perform several similar tasks.",textbook_chunk_6,multithreading
+"For example, a web server accepts client requests for web pages, images, sound, and so forth.",textbook_chunk_7,multithreading
+A busy web server may have several (perhaps thousands of) clients concurrently accessing it.,textbook_chunk_8,multithreading
+"If the web server ran as a traditional single-threaded process, it would be able to service only one client at a time, and a client might have to wait a very long time for its request to be serviced.",textbook_chunk_9,multithreading
+One solution is to have the server run as a single process that accepts requests.,textbook_chunk_10,multithreading
+"When the server receives a request, it creates a separate process to service that request.",textbook_chunk_11,multithreading
+"In fact, this process-creation method was in common use before threads became popular.",textbook_chunk_12,multithreading
+"Process creation is time consuming and resource intensive, however.",textbook_chunk_13,multithreading
+"If the new process will perform the same tasks as the existing process, why incur all that overhead?",textbook_chunk_14,multithreading
+It is generally more efﬁcient to use one process that contains multiple threads.,textbook_chunk_15,multithreading
+"If the web-server process is multithreaded, the server will create a separate thread that listens for client requests.",textbook_chunk_16,multithreading
+"When a request is made, rather th an creating another process, the server creates a new thread to service the request and resume listening for additional requests.",textbook_chunk_17,multithreading
+This is illustrated in Figure 4.2.,textbook_chunk_18,multithreading
+Threads also play a vital role in remote procedure call ( RPC)s y s t e m s .R e,textbook_chunk_19,multithreading
+c a l l from Chapter 3 that RPCsa l l o wi n t e r p r o c e s sc o m m u,textbook_chunk_20,multithreading
+i n ga communication mechanism similar to ordinary function or procedure calls.,textbook_chunk_21,multithreading
+"Typically, RPC servers are multithreaded.",textbook_chunk_22,multithreading
+"When a server receives a message, it",textbook_chunk_23,multithreading
+An operating system acts as an intermediary between the user of a computer and the computer hardware.,textbook_chunk_24,general
+The purpose of an operating system is to provide an environment in which a user can execute programs in a convenient andefﬁcient manner.,textbook_chunk_25,general
+An operating system is software that manages the computer hard- ware.,textbook_chunk_26,general
+The hardware must provide appropriate mechanisms to ensure the correct operation of the computer system and to prevent user programs from interfering with the proper operation of the system.,textbook_chunk_27,general
+"Internally, operating systems vary greatly in their makeup, since they are organized along many different lines.",textbook_chunk_28,general
+The design of a new operating system is a major task.,textbook_chunk_29,general
+It is important that the goals of the system be well deﬁned before the design begins.,textbook_chunk_30,general
+These goals form the basis for choices among various algorith ms and strategies.,textbook_chunk_31,general
+"Because an operating system is large and complex, it must be created piece by piece.",textbook_chunk_32,general
+"Each of these pieces should be a well-delineated portion of the system, with carefully deﬁned inputs, outputs, and functions.",textbook_chunk_33,general
+376 8.1 Background 353 operating system0 256000 300040300040 base 120900 limit420940 880000 1024000process process process,textbook_chunk_34,memory_management
+Figure 8.1 Ab a s ea n dal,textbook_chunk_35,memory_management
+"300040 and the limit register is 120900, then the program can legally access all addresses from 300040 through 420939 (inclusive).",textbook_chunk_36,memory_management
+Protection of memory space is accomplished by having the CPU hardware compare every address generated in user mode with the registers.,textbook_chunk_37,memory_management
+"Any attempt by a program executing in user mode to access operating-system memory or other users memory results in a trap to the operating system, which treats the attempt as a fatal error (Figure 8.2).",textbook_chunk_38,memory_management
+This scheme prevents a user program from (accidentally or deliberately) modifying the code or data structures of either the operating system or other users.,textbook_chunk_39,memory_management
+"The base and limit registers can be loaded only by the operating system, which uses a special privileged instruction.",textbook_chunk_40,memory_management
+"Since privileged instructions can be executed only in kernel mode, and since only the operating system executes in kernel mode, only the operating system can load the base and limit registers.base memorytrap to operating system monitoraddressing erroraddress",textbook_chunk_41,memory_management
+yes yes no noCPUbase H11001 limit   Figure 8.2 Hardware address protection with base and limit registers.,textbook_chunk_42,memory_management
+36 1.3 Computer-System Architecture 13thread of executioninstructions and datainstruction execution cycle data movement DMA memory interruptcache data IO requestCPU (N) device (M) Figure 1.5 How a modern computer system works.,textbook_chunk_43,process_management
+can categorize roughly according to the number of general-purpose processors used.,textbook_chunk_44,process_management
+"1.3.1 Single-Processor Systems Until recently, most computer systems used a single processor.",textbook_chunk_45,process_management
+"On a single- processor system, there is one main CPU capable of executing a general-purpose instruction set, including instructions from user processes.",textbook_chunk_46,process_management
+Almost all single- processor systems have other special-purpose processors as well.,textbook_chunk_47,process_management
+"They may come in the form of device-speciﬁc processors, such as disk, keyboard, and graphics controllers; or, on mainframes, they may come in the form of more general-purpose processors, such as IO processors that move data rapidly among the components of the system.",textbook_chunk_48,process_management
+All of these special-purpose processors run a limited instruction set and do not run user processes.,textbook_chunk_49,process_management
+"Sometimes, they are managed by the operating system, in that the operating system sends them information about their next task and monitors their status.",textbook_chunk_50,process_management
+"For example, a disk-controller microprocessor receives a sequence of requests from the main CPU and implements its own disk queue and scheduling algorithm.",textbook_chunk_51,process_management
+This arrangement relieves the main CPU of the overhead of disk scheduling.,textbook_chunk_52,process_management
+i c r o p r o c e s s o ri nt h ek e y b o a r d to convert the keystrokes into codes to be sent to the CPU.I no t,textbook_chunk_53,process_management
+"t e m s or circumstances, special-purpose processors are low-level components built into the hardware.",textbook_chunk_54,process_management
+The operating system cannot communicate with these processors; they do their jobs autonomously.,textbook_chunk_55,process_management
+The use of special-purpose microprocessors is common and does not turn a single-processor system into,textbook_chunk_56,process_management
+24 Chapter 1 Introduction 1.5.2,textbook_chunk_57,general
+Timer We must ensure that the operating system maintains control over the CPU.,textbook_chunk_58,general
+We cannot allow a user program to get stuck in an inﬁnite loop or to fail to call system services and never return control to the operating system.,textbook_chunk_59,general
+"To accomplish this goal, we can use a timer .At",textbook_chunk_60,general
+i m e rc a nb es e tt oi n t e r r u p t the computer after a speciﬁed period.,textbook_chunk_61,general
+"The period may be ﬁxed (for example, 160 second) or variable (for example, from 1 millisecond to 1 second).",textbook_chunk_62,general
+A variable timer is generally implemented by a ﬁxed-rate clock and a counter.,textbook_chunk_63,general
+The operating system sets the counter.,textbook_chunk_64,general
+"Every time the clock ticks, the counter is decremented.",textbook_chunk_65,general
+"When the counter reaches 0 , an interrupt occurs.",textbook_chunk_66,general
+"For instance, a1 0 - b i tc o u n t e rw",textbook_chunk_67,general
+i s e c o n dc l o c ka l l o w si n t e r r u p t sa,textbook_chunk_68,general
+ti n t e r v a l sf r o m 1m i l l,textbook_chunk_69,general
+"i s e c o n dt o1 , 0 2 4m i",textbook_chunk_70,general
+"i s e c o n d s ,i ns t e p so f1m i",textbook_chunk_71,general
+"Before turning over control to the user, the operating system ensures that the timer is set to interrupt.",textbook_chunk_72,general
+"If the timer interrupts, control transfers automatically to the operating system, which may treat the interrupt as a fatal error or may give the program more time.",textbook_chunk_73,general
+"Clearly, instructions that modify the content of the timer are privileged.",textbook_chunk_74,general
+We can use the timer to prevent a user program from running too long.,textbook_chunk_75,general
+A simple technique is to initialize a counter with the amount of time that a program is allowed to run.,textbook_chunk_76,general
+"A program with a 7-minute time limit, for example, would have its counter initialized to 420.",textbook_chunk_77,general
+"Every second, the timer interrupts, and the counter is decremented by 1.",textbook_chunk_78,general
+"As long as the counter is positive, control is returned to the user program.",textbook_chunk_79,general
+"When the counter becomes negative, the operating system terminates the program for exceeding the assigned time limit.",textbook_chunk_80,general
+"1.6 Process Management A program does nothing unless its instructions are executed by a CPU.A program in execution, as mentioned, is a process.",textbook_chunk_81,general
+A time-shared user program such as a compiler is a process.,textbook_chunk_82,general
+A word-processing program being run by an individual user on a PCis a process.,textbook_chunk_83,general
+"A system task, such as sending output to a printer, can also be a process (or at least part of one).",textbook_chunk_84,general
+"For now, you can consider a process to be a job or a time-shared program, but later you will learn that the concept is more general.",textbook_chunk_85,general
+"As we shall see in Chapter 3, it is possible to provide system calls that allow processes to create subprocesses to execute concurrently.",textbook_chunk_86,general
+Ap r o c e s sn e e d sc e r t a i nr e s o u r c e s,textbook_chunk_87,general
+"i n g CPU time, memory, ﬁles, and IOdevicesto accomplish its task.",textbook_chunk_88,general
+These resources are either given to the process when it is created or allocated to it while it is running.,textbook_chunk_89,general
+"In addition to the various physical and logical resources that a process obtains when it is created, various initialization data (input) may be passed along.",textbook_chunk_90,general
+"For example, consider a process whose function is to display the status of a ﬁle on the screen of a terminal.",textbook_chunk_91,general
+The process will be given the name of the ﬁle as an input and will execute the appropriate instructions and system calls to obtain and display the desired information on the terminal.,textbook_chunk_92,general
+"When the process terminates, the operating system will reclaim any reusable resources.",textbook_chunk_93,general
+We emphasize that a program by itself is not a process.,textbook_chunk_94,general
+"A program is a passive entity, like the contents of a ﬁle stored on disk, whereas a process",textbook_chunk_95,general
+51 28 Chapter 1 Introduction temporary basis.,textbook_chunk_96,io_systems
+"When we need a particular piece of information, we ﬁrst check whether it is in the cache.",textbook_chunk_97,io_systems
+"If it is, we use the information directly from the cache.",textbook_chunk_98,io_systems
+"If it is not, we use the information from the source, putting a copy in the cache under the assumption that we will need it again soon.",textbook_chunk_99,io_systems
+"In addition, internal programmable registers, such as index registers, provide a high-speed cache for main memory.",textbook_chunk_100,io_systems
+The programmer (or compiler) implements the register-allocation and register-replacement algorithms to decide which information to keep in registers and which to keep in main memory.,textbook_chunk_101,io_systems
+Other caches are implemented totally in hardware.,textbook_chunk_102,io_systems
+"For instance, most systems have an instruction cache to hold the instructions expected to be executed next.",textbook_chunk_103,io_systems
+"Without this cache, the CPU would have to wait several cycles while an instruction was fetched from main memory.",textbook_chunk_104,io_systems
+"For similar reasons, most systems have one or more high-speed data caches in the memory hierarchy.",textbook_chunk_105,io_systems
+"We are not concerned with these hardware-only caches in this text, since they are outside the control of the operating system.",textbook_chunk_106,io_systems
+"Because caches have limited size, cache management is an important design problem.",textbook_chunk_107,io_systems
+Careful selection of the cache size and of a replacement policy can result in greatly increased performance.,textbook_chunk_108,io_systems
+Figure 1.11 compares storage performance in large workstations and small servers.,textbook_chunk_109,io_systems
+Various replacement algorithms for software-controlled caches are discussed in Chapter 9.,textbook_chunk_110,io_systems
+"Main memory can be viewed as a fast cache for secondary storage, since data in secondary storage must be copied into main memory for use and data must be in main memory before being moved to secondary storage for safekeeping.",textbook_chunk_111,io_systems
+"The ﬁle-system data, which resides permanently on secondary storage, may appear on several levels in the storage hierarchy.",textbook_chunk_112,io_systems
+"At the highest level, the operating system may maintain a cache of ﬁle-system data in main memory.",textbook_chunk_113,io_systems
+"In addition, solid-state disks may be used for high-speed storage that is accessed through the ﬁle-system interface.",textbook_chunk_114,io_systems
+The bulk of secondary storage is on magnetic disks.,textbook_chunk_115,io_systems
+"The magnetic-disk storage, in turn, is often backed up onto magnetic tapes or removable disks to protect against data loss in case of a hard-disk failure.",textbook_chunk_116,io_systems
+"Some systems automatically archive old ﬁle data from secondary storage to tertiary storage, such as tape jukeboxes, to lower the storage cost (see Chapter 10).",textbook_chunk_117,io_systems
+Level Name Typical size Implementation technology,textbook_chunk_118,io_systems
+"Access time (ns) Bandwidth (MBsec) Managed by Backed by1 registers  1 KB custom memory with multiple ports CMOS 0.25 - 0.5 20,000 - 100,000 compiler cache2 cache  16MB on-chip or off-chip CMOS SRAM 0.5 - 25 5,000 - 10,000 hardware main memory3 main memory  64GB CMOS SRAM 80 - 250 1,000 - 5,000 operating system disk4 solid state disk  1 TB flash memory 25,000 - 50,000 500 operating system disk5 magnetic disk  10 TB magnetic disk 5,000,000 20 - 150 operating system disk or tape Figure 1.11 Performance of various levels of storage.",textbook_chunk_119,io_systems
+1.11 Computing Environments 39 1.11.5 Peer-to-Peer Computing Another structure for a distributed system is the peer-to-peer ( P2P)s y s t e m model.,textbook_chunk_120,general
+"In this model, clients and servers are not distinguished from one another.",textbook_chunk_121,general
+"Instead, all nodes within the system are considered peers, and each may act as either a client or a server, d epending on whether it is requesting or providing a service.",textbook_chunk_122,general
+Peer-to-peer systems offer an advantage over traditional client-server systems.,textbook_chunk_123,general
+"In a client-server system, the server is a bottleneck; but in a peer-to-peer system, services can be provided by several nodes distributed throughout the network.",textbook_chunk_124,general
+"To participate in a peer-to-peer system, a node must ﬁrst join the network of peers.",textbook_chunk_125,general
+"Once a node has joined the netw ork, it can begin providing services toand requesting services fromother nodes in the network.",textbook_chunk_126,general
+"Determining what services are available is accomplished in one of two general ways: When a node joins a network, it registers its service with a centralized lookup service on the network.",textbook_chunk_127,general
+Any node desiring a speciﬁc service ﬁrst contacts this centralized lookup service to determine which node provides the service.,textbook_chunk_128,general
+The remainder of the communication takes place between the client and the service provider.,textbook_chunk_129,general
+An alternative scheme uses no centralized lookup service.,textbook_chunk_130,general
+"Instead, a peer acting as a client must discover what node provides a desired service by broadcasting a request for the service to all other nodes in the network.",textbook_chunk_131,general
+The node (or nodes) providing that service responds to the peer making the request.,textbook_chunk_132,general
+"To support this approach, a discovery protocol must be provided that allows peers to discover servic es provided by other peers in the network.",textbook_chunk_133,general
+Figure 1.19 illustrates such a scenario.,textbook_chunk_134,general
+"Peer-to-peer networks gained widespread popularity in the late 1990s with several ﬁle-sharing services, such as Napster and Gnutella, that enabled peers to exchange ﬁles with one another.",textbook_chunk_135,general
+"The Napster system used an approach similar to the ﬁrst type described ab ove: a centralized server maintained an index of all ﬁles stored on peer nodes in the Napster network, and the actualclient client client client client Figure 1.19 Peer-to-peer system with no centralized service.",textbook_chunk_136,general
+66 Chapter 2 Operating-System Structures code for system call 13 operat ing systemuser programuse parameters from table XregisterX X: parameters for call load address X system call 13 Figure 2.7 Passing of parameters as a table.,textbook_chunk_137,general
+"2.4 Types of System Calls System calls can be grouped roughly into six major categories: process control ,ﬁle manipulation ,device manipulation ,information maintenance , communications ,a n d protection .I nS e c t i o n s2 .",textbook_chunk_138,general
+4 . 1t h r o u g h2 .,textbook_chunk_139,general
+"4 . 6 ,w eb r i e ﬂ y discuss the types of system calls that may be provided by an operating system.",textbook_chunk_140,general
+"Most of these system calls support, or are supported by, concepts and functions that are discussed in later chapters.",textbook_chunk_141,general
+Figure 2.8 summarizes the types of system calls normally provided by an operating system.,textbook_chunk_142,general
+"As mentioned, in this text, we normally refer to the system calls by generic names.",textbook_chunk_143,general
+"Throughout the text, however, we provide examples of the a ctual counterparts to the system calls for Windows, UNIX ,a n dL",textbook_chunk_144,general
+i n u xs y s t e m s .,textbook_chunk_145,general
+2.4.1 Process Control Ar u n n i n gp r o g r a mn e e d st ob ea b l et,textbook_chunk_146,general
+oh a l ti t se x e c u t,textbook_chunk_147,general
+i t h e rn o r m a l l y (end() ),textbook_chunk_148,general
+o ra b n o r m a l l y( abort() ).,textbook_chunk_149,general
+"If a system call is made to terminate the currently running program abnormally, or if the program runs into a problem and causes an error trap, a dump of memory is sometimes taken and an error message generated.",textbook_chunk_150,general
+"The dump is written to disk and may be examined by adebugger a system program designed to aid the programmer in ﬁnding and correcting errors, or bugs to determine the cause of the problem.",textbook_chunk_151,general
+"Under either normal or abnormal circumstances, the operating system must transfer control to the invoking command interpreter.",textbook_chunk_152,general
+The command interpreter then reads the next command.,textbook_chunk_153,general
+"In an interactive system, the command interpreter simply continues with the next command; it is assumed that the user will issue an appropriate command to respond to any error.",textbook_chunk_154,general
+"In a GUI system, a pop-up window might alert the user to the error and ask for guidance.",textbook_chunk_155,general
+"In a batch system, the command interpreter usually terminates the entire job and continues with the next job.",textbook_chunk_156,general
+Some systems may allow for special recovery actions in case an error occurs.,textbook_chunk_157,general
+"If the program discovers an error in its input and wants to terminate abnormally, it may also want to deﬁne an error level.",textbook_chunk_158,general
+More severe errors can be indicated by a higher-level error parameter.,textbook_chunk_159,general
+"58 Chapter 2 Operating-System Structures himself or herself to the system, usually by means of a password, to gain access to system resources.",textbook_chunk_160,general
+"It extends to defending external IOdevices, including network adapters, from invalid access attempts and to recording all such connections for detection of break-ins.",textbook_chunk_161,general
+"If a system is to be protected and secure, precautions must be instituted throughout it.",textbook_chunk_162,general
+A chain is only as strong as its weakest link.,textbook_chunk_163,general
+2.2 User and Operating-System Interface,textbook_chunk_164,general
+We mentioned earlier that there are several ways for users to interface with the operating system.,textbook_chunk_165,general
+"Here, we discuss two fundamental approaches.",textbook_chunk_166,general
+"One provides a command-line interface, or command interpreter ,t h a ta l l o w su s e r s to directly enter commands to be performed by the operating system.",textbook_chunk_167,general
+"The other allows users to interface with the operating system via a graphical user interface, or GUI. 2.2.1",textbook_chunk_168,general
+Command Interpreters Some operating systems include the command interpreter in the kernel.,textbook_chunk_169,general
+"Others, such as Windows and UNIX , treat the command interpreter as a special program that is running when a job is initiated or when a user ﬁrst logs on (on interactive systems).",textbook_chunk_170,general
+"On systems with multiple command interpreters to choose from, the interpreters are known as shells .F o re x a m p l e ,o n UNIX and Linux systems, a user may choose among several different shells, including the Bourne shell ,C shell ,Bourne-Again shell ,Korn shell ,a n do t h e r s",textbook_chunk_171,general
+h i r d - p a r t ys h e l l sa n df r e e user-written shells are also available.,textbook_chunk_172,general
+"Most shells provide similar functionality, and a users choice of which shell to use is generally based on personal preference.",textbook_chunk_173,general
+Figure 2.2 shows the Bourne s hell command interpreter being used on Solaris 10.,textbook_chunk_174,general
+The main function of the command interpreter is to get and execute the next user-speciﬁed command.,textbook_chunk_175,general
+"Many of the commands given at this level manipulate ﬁles: create, delete, list, print, copy, execute, and so on.",textbook_chunk_176,general
+The MS-DOS and UNIX shells operate in this way.,textbook_chunk_177,general
+These commands can be implemented in two general ways.,textbook_chunk_178,general
+"In one approach, the command interpreter itself contains the code to execute the command.",textbook_chunk_179,general
+"For example, a command to delete a ﬁle may cause the command interpreter to jump to a section of its code that sets up the parameters and makes the appropriate system call.",textbook_chunk_180,general
+"In this case, the number of commands that can be given determines the size of the command interpreter, since each command requires its own implementing code.",textbook_chunk_181,general
+"An alternative approachused by UNIX , among other operating systems implements most commands through system programs.",textbook_chunk_182,general
+"In this case, the command interpreter does not understand the command in any way; it merely uses the command to identify a ﬁle to be loaded into memory and executed.",textbook_chunk_183,general
+"Thus, the UNIX command to delete a ﬁle rm file.txt would search for a ﬁle called rm,l o a dt",textbook_chunk_184,general
+"h eﬁ l ei n t om e m o r y ,",textbook_chunk_185,general
+a n de x e c u t ei tw i t h the parameter file.txt .T,textbook_chunk_186,general
+i o na s s o c i a t e dw,textbook_chunk_187,general
+71 executes a fork() system call.,textbook_chunk_188,process_management
+"Then, the selected program is loaded into memory via an exec() system call, and the program is executed.",textbook_chunk_189,process_management
+"Depending on the way the command was issued, the shell then either waits for the process to ﬁnish or runs the process in the background.",textbook_chunk_190,process_management
+"In the latter case, the shell immediately requests another command.",textbook_chunk_191,process_management
+"When a process is running in the background, it cannot receive input dire ctly from the keyboard, because the shell is using this resource.",textbook_chunk_192,process_management
+IOis therefore done through ﬁles or through a GUI interface.,textbook_chunk_193,process_management
+"Meanwhile, the user is free to ask the shell to run other programs, to monitor the progress of the running process, to change that programs priority, and so on.",textbook_chunk_194,process_management
+"When the process is done, it executes an exit() system call to terminate, returning to the invoking process a status code of 0 or a nonzero error code.",textbook_chunk_195,process_management
+This status or error code is th en available to the shell or other programs.,textbook_chunk_196,process_management
+Processes are discussed in Chapter 3 with a program example using thefork() andexec() system calls.,textbook_chunk_197,process_management
+2.4.2 File Management,textbook_chunk_198,process_management
+The ﬁle system is discussed in more detail in Chapters 11 and 12.,textbook_chunk_199,process_management
+"We can, however, identify several common system calls dealing with ﬁles.",textbook_chunk_200,process_management
+We ﬁrst need to be able to create() anddelete() ﬁles.,textbook_chunk_201,process_management
+Either system call requires the name of the ﬁle and perhaps some of the ﬁles attributes.,textbook_chunk_202,process_management
+"Once the ﬁle is created, we need to open() it and to use it.",textbook_chunk_203,process_management
+"We may also read() , write() ,o rreposition() (rewind or skip to the end of the ﬁle, for example).",textbook_chunk_204,process_management
+"Finally, we need to close() the ﬁle, indicating that we are no longer using it.",textbook_chunk_205,process_management
+We may need these same sets of operations for directories if we have a directory structure for organizing ﬁles in the ﬁle system.,textbook_chunk_206,process_management
+"In addition, for either ﬁles or directories, we need to be able to determine the values of various attributes and perhaps to reset them if necessary.",textbook_chunk_207,process_management
+"File attributes include the ﬁle name, ﬁle type, protection codes, accounting information, and so on.",textbook_chunk_208,process_management
+"At least two system calls, get file attributes() andset file attributes() ,a r e required for this function.",textbook_chunk_209,process_management
+"Some operating systems provide many more calls, such as calls for ﬁle move() and copy() .O",textbook_chunk_210,process_management
+"ea n APIthat performs those operations using code and other system calls, and others might provide system programs to perform those tasks.",textbook_chunk_211,process_management
+"If the system programs are callable by other programs, then each can be considered an APIby other system programs.",textbook_chunk_212,process_management
+"2.4.3 Device Management Ap r o c e s sm a yn e e ds e v e r a lr e s o u r c e st oe x e c u t e  m a i nm e m o r y ,",textbook_chunk_213,process_management
+"i s kd r i v e s , access to ﬁles, and so on.",textbook_chunk_214,process_management
+"If the resour ces are available, they can be granted, and control can be returned to the user process.",textbook_chunk_215,process_management
+"Otherwise, the process will have to wait until sufﬁcient resources are available.",textbook_chunk_216,process_management
+The various resources controlled by the operating system can be thought of as devices.,textbook_chunk_217,process_management
+"Some of these devices are physical devices (for example, disk drives), while others can be thought of as abstract or virtual devices (for example, ﬁles).",textbook_chunk_218,process_management
+"A system with multiple users may require us to ﬁrst request() ad e v i c e ,t oe n s u r ee x c l u s",textbook_chunk_219,process_management
+"f t e r we are ﬁnished with the device, we release() it.",textbook_chunk_220,process_management
+These functions are similar to the open() and close() system calls for ﬁles.,textbook_chunk_221,process_management
+Other operating systems allow unmanaged access to devices.,textbook_chunk_222,process_management
+ew Anoperating system acts as an intermediary between the user of a computer and the computer hardware.,textbook_chunk_223,general
+The purpose of an operating system is to provide an environment in which a user can execute programs in a convenient andefﬁcient manner.,textbook_chunk_224,general
+An operating system is software that manages the computer hard- ware.,textbook_chunk_225,general
+The hardware must provide appropriate mechanisms to ensure the correct operation of the computer system and to prevent user programs from interfering with the proper operation of the system.,textbook_chunk_226,general
+"Internally, operating systems vary greatly in their makeup, since they are organized along many different lines.",textbook_chunk_227,general
+The design of a new operating system is a major task.,textbook_chunk_228,general
+It is important that the goals of the system be well deﬁned before the design begins.,textbook_chunk_229,general
+These goals form the basis for choices among various algorith ms and strategies.,textbook_chunk_230,general
+"Because an operating system is large and complex, it must be created piece by piece.",textbook_chunk_231,general
+"Each of these pieces should be a well-delineated portion of the system, with carefully deﬁned inputs, outputs, and functions.",textbook_chunk_232,general
+erating-System Structureslayer N user interface  layer 1 layer 0 hardware Figure 2.13 Al a y e r e do p e r a t,textbook_chunk_233,general
+An operating-system layer is an implementation of an abstract object made up of data and the operations that can manipulate those data.,textbook_chunk_234,general
+"A typical operating-system layersay, layer Mconsists of data structures and a set of routines that can be invoked by higher-level layers.",textbook_chunk_235,general
+"Layer M,in turn, can invoke operations on lower-level layers.",textbook_chunk_236,general
+The main advantage of the layered approach is simplicity of construction and debugging.,textbook_chunk_237,general
+The layers are selected so that each uses functions (operations) and services of only lower-level layers.,textbook_chunk_238,general
+Th is approach simpliﬁes debugging and system veriﬁcation.,textbook_chunk_239,general
+"The ﬁrst layer can be debugged without any concern for the rest of the system, because, by deﬁnition, it uses only the basic hardware (which is assumed correct) to implement its functions.",textbook_chunk_240,general
+"Once the ﬁrst layer is debugged, its correct functioning can be assumed while the second layer is debugged, and so on.",textbook_chunk_241,general
+"If an error is found during the debugging of a particular layer, the error must be on that layer, because the layers below it are already debugged.",textbook_chunk_242,general
+"Thus, the design and implementation of the system are simpliﬁed.",textbook_chunk_243,general
+Each layer is implemented only with operations provided by lower-level layers.,textbook_chunk_244,general
+A layer does not need to know how these operations are implemented; it needs to know only what these operations do.,textbook_chunk_245,general
+"Hence, each layer hides the existence of certain data structures, operations, and hardware from higher-level layers.",textbook_chunk_246,general
+The major difﬁculty with the layered approach involves appropriately deﬁning the various layers.,textbook_chunk_247,general
+"Because a layer can use only lower-level layers, careful planning is necessary.",textbook_chunk_248,general
+"For example, the device driver for the backing store (disk space used by virtual-memory algorithms) must be at a lower level than the memory-management ro utines, because memory management requires the ability to use the backing store.",textbook_chunk_249,general
+Other requirements may not be so obvious.,textbook_chunk_250,general
+"The backing-store driver would normally be above the CPU scheduler, because the driver may need to wait for IOand",textbook_chunk_251,general
+the CPU can be rescheduled during this time.,textbook_chunk_252,general
+erating-System Structures,textbook_chunk_253,general
+The user interface can vary from system to system and even from user to user within a system.,textbook_chunk_254,general
+It typically is substantially removed from the actual system structure.,textbook_chunk_255,general
+The design of a useful and friendly user interface is therefore not a direct function of the operating system.,textbook_chunk_256,general
+"In this book, we concentrate on the fundamental problems of providing adequate service to user programs.",textbook_chunk_257,general
+"From the point of view of the operating system, we do not distinguish between user programs and system programs.",textbook_chunk_258,general
+2.3 System Calls System calls provide an interface to the services made available by an operating system.,textbook_chunk_259,general
+"These calls are generally available as routines written in C and C, although certain low-level tasks (for example, tasks where hardware must be accessed directly) may have to be written using assembly-language instructions.",textbook_chunk_260,general
+"Before we discuss how an operating system makes system calls available, lets ﬁrst use an example to illustrate how system calls are used: writing a simple program to read data from one ﬁle and copy them to another ﬁle.",textbook_chunk_261,general
+The ﬁrst input that the program will need is the names of the two ﬁles: the input ﬁle and the output ﬁle.,textbook_chunk_262,general
+"These names can be speciﬁed in many ways, depending on the operating-system design.",textbook_chunk_263,general
+One approach is for the program to ask the user for the names.,textbook_chunk_264,general
+"In an interactive system, this approach will require a sequence of system calls, ﬁrst to write a prompting message on the screen and then to read from the keyboard the characters that deﬁne the two ﬁles.",textbook_chunk_265,general
+"On mouse-based and icon-based systems, a menu of ﬁle names is usually displayed in a window.",textbook_chunk_266,general
+"The user can then use the mouse to select the source name, and a window can be opened for the destination name to be speciﬁed.",textbook_chunk_267,general
+This sequence requires many IOsystem calls.,textbook_chunk_268,general
+"Once the two ﬁle names have been ob tained, the program must open the input ﬁle and create the output ﬁle.",textbook_chunk_269,general
+Each of these operations requires another system call.,textbook_chunk_270,general
+Possible error conditions for each operation can require additional system calls.,textbook_chunk_271,general
+"When the program tries to open the input ﬁle, for example, it may ﬁnd that there is no ﬁle of that name or that the ﬁle is protected against access.",textbook_chunk_272,general
+"In these cases, the program should print a message on the console (another sequence of system calls) and then terminate abnormally (another system call).",textbook_chunk_273,general
+"If the input ﬁle exists, then we must create a new output ﬁle.",textbook_chunk_274,general
+We may ﬁnd that there is already an output ﬁle with the same name.,textbook_chunk_275,general
+"This situation may cause the program to abort (a system call), or we may delete the existing ﬁle (another system call) and create a new one (yet another system call).",textbook_chunk_276,general
+"Another option, in an interactive system, is to ask the user (via a sequence of system calls to output the prompting message and to read the response from the terminal) whether to replace the existing ﬁle or to abort the program.",textbook_chunk_277,general
+"When both ﬁles are set up, we enter a loop that reads from the input ﬁle (a system call) and writes to the output ﬁle (another system call).",textbook_chunk_278,general
+Each read and write must return status information regarding various possible error conditions.,textbook_chunk_279,general
+"On input, the program may ﬁnd that the end of the ﬁle has been reached or that there was a hardware failure in the read (such as a parity error).",textbook_chunk_280,general
+"The write operation may encounter various errors, depending on the output device (for example, no more disk space).",textbook_chunk_281,general
+n 365 logical address subroutine stack symbol table main programSqrt Figure 8.7 Programmers view of a program.,textbook_chunk_282,general
+Each segment has a name and a length.,textbook_chunk_283,general
+The addresses specify both the segment name and the offset within the segment.,textbook_chunk_284,general
+The programmer therefore speciﬁes each address by two quantities: a segment name and an offset.,textbook_chunk_285,general
+"For simplicity of implementation, segments are numbered and are referred to by a segment number, rather than by a segment name.",textbook_chunk_286,general
+"Thus, a logical address consists of a two tuple: segment-number, offset .",textbook_chunk_287,general
+"Normally, when a program is compiled, the compiler automatically constructs segments reﬂecting the input program.",textbook_chunk_288,general
+"A C compiler might create separate segments for the following: 1.The code 2.Global variables 3.The heap, from which memory is allocated 4.The stacks used by each thread 5.The standard C library Libraries that are linked in during compile time might be assigned separate segments.",textbook_chunk_289,general
+The loader would take all these segments and assign them segment numbers.,textbook_chunk_290,general
+8.4.2 Segmentation Hardware,textbook_chunk_291,general
+"Although the programmer can now refer to objects in the program by a two-dimensional address, the actual physical memory is still, of course, a one- dimensional sequence of bytes.",textbook_chunk_292,general
+"Thus, we must deﬁne an implementation to map two-dimensional user-deﬁned addresses into one-dimensional physical",textbook_chunk_293,general
+The page size (like the frame size) is deﬁned by the hardware.,textbook_chunk_294,general
+"The size of a page is a power of 2, varying between 512 bytes and 1 GBper page, depending on the computer architecture.",textbook_chunk_295,general
+The selection of a power of 2 as a page size makes the translation of a logical address into a page number and page offset particularly easy.,textbook_chunk_296,general
+"If the size of the logical address space is 2m,a n dap a g es i z ei s 2nbytes, then the high-order mnbits of a logical address designate the page number, and the nlow-order bits designate the page offset.",textbook_chunk_297,general
+"Thus, the logical address is as follows:pdpage number page offset m  n n where pis an index into the page table and dis the displacement within the page.",textbook_chunk_298,general
+"As a concrete (although minuscule) example, consider the memory in Figure 8.12.",textbook_chunk_299,general
+"Here, in the logical address, n2a n d m4 .U s",textbook_chunk_300,general
+"i n gap a g es i z e of 4 bytes and a physical memory of 32 bytes (8 pages), we show how the programmers view of memory can be mapped into physical memory.",textbook_chunk_301,general
+"Logical address 0 is page 0, offset 0.",textbook_chunk_302,general
+"Indexing into the page table, we ﬁnd that page 0 logical memory physical memorypage tablei j k l m n o p a b c d e f g ha b c d e f",textbook_chunk_303,general
+k l m n o p0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 1500 4 8 12 16 20 24 281 2 35 6 1 2 Figure 8.12 Paging example for a 32-byte memory with 4-byte pages.,textbook_chunk_304,general
+"PU Scheduling 2.When a process switches from the running state to the ready state (for example, when an interrupt occurs)",textbook_chunk_305,general
+"3.When a process switches from the waiting state to the ready state (for example, at completion of IO)",textbook_chunk_306,general
+"4.When a process terminates For situations 1 and 4, there is no choice in terms of scheduling.",textbook_chunk_307,general
+A new process (if one exists in the ready queue) must be selected for execution.,textbook_chunk_308,general
+"There is a choice, however, for situations 2 and 3.",textbook_chunk_309,general
+"When scheduling takes place only under circumstances 1 and 4, we say that the scheduling scheme is nonpreemptive orcooperative .O",textbook_chunk_310,general
+"t h e r w i s e , it is preemptive .",textbook_chunk_311,general
+"Under nonpreemptive scheduling, once the CPU has been allocated to a process, the process keeps the CPU until it releases the CPU either by terminating or by switching to the waiting state.",textbook_chunk_312,general
+This scheduling method was used by Microsoft Windows 3.x.,textbook_chunk_313,general
+"Windows 95 introduced preemptive scheduling, and all subsequent versions of Windows operating systems have used preemptive scheduling.",textbook_chunk_314,general
+The Mac OS X operating system for the Macintosh also uses preemptive scheduling; previous versions of the Macintosh operating system relied on cooperative scheduling.,textbook_chunk_315,general
+"Cooperative scheduling is the only method that can be used on certain hardware platforms, because it does not require the special hardware (for example, a timer) needed for preemptive scheduling.",textbook_chunk_316,general
+"Unfortunately, preemptive scheduling can result in race conditions when data are shared among several processes.",textbook_chunk_317,general
+Consider the case of two processes that share data.,textbook_chunk_318,general
+"While one process is updating the data, it is preempted so that the second process can run.",textbook_chunk_319,general
+"The second process then tries to read the data, which are in an inconsistent state.",textbook_chunk_320,general
+This issue was explored in detail in Chapter 5.,textbook_chunk_321,general
+Preemption also affects the design of the operating-system kernel.,textbook_chunk_322,general
+"During the processing of a system call, the kernel may be busy with an activity on behalf of a process.",textbook_chunk_323,general
+"Such activities may involve changing important kernel data (for instance, IOqueues).",textbook_chunk_324,general
+What happens if the process is preempted in the middle of these changes and the kernel (or the device driver) needs to read or modify the same structure?,textbook_chunk_325,general
+"Certain operating systems, including most versions of UNIX ,d e",textbook_chunk_326,general
+h e rf o ras y s t e mc a l l to complete or for an IOblock to take place before doing a context switch.,textbook_chunk_327,general
+"This scheme ensures that the kernel structure is simple, since the kernel will not preempt a process while the kernel data structures are in an inconsistent state.",textbook_chunk_328,general
+"Unfortunately, this kernel-execution model is a poor one for supporting real-time computing where tasks must complete execution within a given time frame.",textbook_chunk_329,general
+"In Section 6.6, we explore scheduling demands of real-time systems.",textbook_chunk_330,general
+"Because interrupts can, by de ﬁnition, occur at any time, and because they cannot always be ignored by the k ernel, the sections of code affected by interrupts must be guarded from simultaneous use.",textbook_chunk_331,general
+The operating system needs to accept interrupts at almost all times.,textbook_chunk_332,general
+"Otherwise, input might be lost or output overwritten.",textbook_chunk_333,general
+"So that these sections of code are not accessed concurrently by several processes, they disable interru pts at entry and reenable interrupts at exit.",textbook_chunk_334,general
+It is important to note that sections of code that disable interrupts do not occur very often and typically contain few instructions.,textbook_chunk_335,general
+cept 109process P0 process P1 save state into PCB0 save state into PCB1reload state from PCB1 reload state from PCB0operating system idle idleexecuting idleexecuting executinginterrupt or system call interrupt or system call      Figure 3.4 Diagram showing CPU switch from process to process.,textbook_chunk_336,multithreading
+Accounting information .T,textbook_chunk_337,multithreading
+i o ni n c l u d e st h,textbook_chunk_338,multithreading
+"ea m o u n to f CPU and real time used, time limits, account numbers, job or process numbers, and so on.",textbook_chunk_339,multithreading
+IOstatus information .T,textbook_chunk_340,multithreading
+"i s to f IOdevices allocated to the process, a list of open ﬁles, and so on.",textbook_chunk_341,multithreading
+"In brief, the PCB simply serves as the repository for any information that may vary from process to process.",textbook_chunk_342,multithreading
+The process model discussed so far has implied that a process is a program that performs a single thread of execution.,textbook_chunk_343,multithreading
+"For example, when a process is running aw o r d - p r o c e s s o rp r o g r a m ,as i n g l et h r e a do fi n s t r u c t i o n si sb e i n ge x e c u t e d .",textbook_chunk_344,multithreading
+This single thread of control allows the process to perform only one task at at i m e .T,textbook_chunk_345,multithreading
+h eu s e rc a n n o ts i m u l t a n e o u s l yt y p ei nc h a r a c t e r sa n dr,textbook_chunk_346,multithreading
+"u nt h es p e l l checker within the same process, for example.",textbook_chunk_347,multithreading
+Most modern operating systems have extended the process concept to allow a process to have multiple threads of execution and thus to perform more than one task at a time.,textbook_chunk_348,multithreading
+"This feature is especially beneﬁcial on multicore systems, where multiple threads can run in parallel.",textbook_chunk_349,multithreading
+"On a system that supports threads, the PCB is expanded to include information for each thread.",textbook_chunk_350,multithreading
+Other changes throughout the system are also needed to support threads.,textbook_chunk_351,multithreading
+Chapter 4 explores threads in detail.,textbook_chunk_352,multithreading
+Criteria 265 6.1.4 Dispatcher Another component involved in the CPU-scheduling function is the dispatcher .,textbook_chunk_353,process_management
+The dispatcher is the module that gives control of the CPU to the process selected by the short-term scheduler.,textbook_chunk_354,process_management
+"This f unction involves the following: Switching context Switching to user mode Jumping to the proper location in the user program to restart that program The dispatcher should be as fast as possible, since it is invoked during every process switch.",textbook_chunk_355,process_management
+The time it takes for the dispatcher to stop one process and start another running is known as the dispatch latency .,textbook_chunk_356,process_management
+"6.2 Scheduling Criteria Different CPU-scheduling algorithms have different properties, and the choice of a particular algorithm may favor one class of processes over another.",textbook_chunk_357,process_management
+"In choosing which algorithm to use in a particular situation, we must consider the properties of the various algorithms.",textbook_chunk_358,process_management
+Many criteria have been suggested for comparing CPU-scheduling algo- rithms.,textbook_chunk_359,process_management
+Which characteristics are used for comparison can make a substantial difference in which algorithm is judged to be best.,textbook_chunk_360,process_management
+The criteria include the following: CPU utilization .W,textbook_chunk_361,process_management
+ew a n tt ok e e pt h e CPU as busy as possible.,textbook_chunk_362,process_management
+"Concep- tually, CPU utilization can range from 0 to 100 percent.",textbook_chunk_363,process_management
+"In a real system, it should range from 40 percent (for a lightly loaded system) to 90 percent (for a heavily loaded system).",textbook_chunk_364,process_management
+"ft h e CPU is busy executing processes, then work is being done.",textbook_chunk_365,process_management
+"One measure of work is the number of processes that are completed per time unit, called throughput .F",textbook_chunk_366,process_management
+"o rl o n gp r o c e s s e s ,",textbook_chunk_367,process_management
+"t h i sr a t em a yb eo n e process per hour; for short transactions, it may be ten processes per second.",textbook_chunk_368,process_management
+"From the point of view of a particular process, the important criterion is how long it takes to exec ute that process.",textbook_chunk_369,process_management
+The interval from the time of submission of a process to the time of completion is the turnaround time.,textbook_chunk_370,process_management
+"Turnaround time is the sum of the periods spent waiting to get into memory, waiting in the ready queue, executing on the CPU,a n d doing IO.",textbook_chunk_371,process_management
+Waiting time .T h e CPU-scheduling algorithm does not affect the amount of time during which a process executes or does IO.,textbook_chunk_372,process_management
+It affects only the amount of time that a process spends waiting in the ready queue.,textbook_chunk_373,process_management
+Waiting time is the sum of the periods spent waiting in the ready queue.,textbook_chunk_374,process_management
+"In an interactive system, turnaround time may not be the best criterion.",textbook_chunk_375,process_management
+"Often, a process can produce some output fairly early and can continue computing new results while previous results are being",textbook_chunk_376,process_management
+"troduction Multiprogrammed systems provide an environment in which the various system resources (for example, CPU,m e m o r y ,a n dp e r i p h e r a ld e v i c e s )a r e utilized effectively, but they do not provide for user interaction with the computer system.",textbook_chunk_377,general
+Time sharing (ormultitasking )i sal o g,textbook_chunk_378,general
+i o no f multiprogramming.,textbook_chunk_379,general
+"In time-sharing systems, the CPU executes multiple jobs by switching among them, but the switches occur so frequently that the users can interact with each program while it is running.",textbook_chunk_380,general
+"Time sharing requires an interactive computer system, which provides direct communication between the user and the system.",textbook_chunk_381,general
+"The user gives instructions to the operating system or to a program directly, using a input device such as a keyboard, mouse, touch pad, or touch screen, and waits for immediate results on an output device.",textbook_chunk_382,general
+"Accordingly, the response time should be shorttypically less than one second.",textbook_chunk_383,general
+At i m e - s h a r e do p e r a t,textbook_chunk_384,general
+t e ma l l o w sm a n yu s e r st os h,textbook_chunk_385,general
+a r et h ec o m p u t e r simultaneously.,textbook_chunk_386,general
+"Since each action or command in a time-shared system tends to be short, only a little CPU time is needed for each user.",textbook_chunk_387,general
+"As the system switches rapidly from one user to the next, each user is given the impression that the entire computer system is dedicated to his use, even though it is being shared among many users.",textbook_chunk_388,general
+At i m e - s h a r e do p e r a t,textbook_chunk_389,general
+i n gs y s t e mu s e s CPU scheduling and multiprogram- ming to provide each user with a small portion of a time-shared computer.,textbook_chunk_390,general
+Each user has at least one separate program in memory.,textbook_chunk_391,general
+A program loaded into memory and executing is called a process .W,textbook_chunk_392,general
+"h e nap r o c e s se x e c u t e s ,i tt y p",textbook_chunk_393,general
+i c a l l y executes for only a short time before i,textbook_chunk_394,general
+so rn e e d st op e r f o r m IO.,textbook_chunk_395,general
+"IOmay be interactive; that is, output goes to a display for the user, and input comes from a user keyboard, mouse, or other device.",textbook_chunk_396,general
+"Since interactive IO typically runs at people speeds, it may take a long time to complete.",textbook_chunk_397,general
+"Input, for example, may be bounded by the users typing speed; seven characters per second is fast for people but incredibly slow for computers.",textbook_chunk_398,general
+"Rather than let the CPU sit idle as this interactive input takes place, the operating system will rapidly switch the CPU to the program of some other user.",textbook_chunk_399,general
+Time sharing and multiprogramming require that several jobs be kept simultaneously in memory.,textbook_chunk_400,general
+"If several jobs are ready to be brought into memory, and if there is not enough room for all of them, then the system must choose among them.",textbook_chunk_401,general
+"Making this decision involves job scheduling ,w h i c hw ed",textbook_chunk_402,general
+i s c u s s in Chapter 6.,textbook_chunk_403,general
+"When the operating system selects a job from the job pool, it loads that job into memory for execution.",textbook_chunk_404,general
+"Having several programs in memory at the same time requires some form of memory management, which we cover in Chapters 8 and 9.",textbook_chunk_405,general
+"In addition, if several jobs are ready to run at the same time, the system must choose which job will run ﬁrst.",textbook_chunk_406,general
+"Making this decision is CPU scheduling ,w h",textbook_chunk_407,general
+od i s c u s s e di nC h a p t e r6,textbook_chunk_408,general
+"i n a l l y ,r u n n i n gm u l t i p l e jobs concurrently requires that their ability to affect one another be limited in all phases of the operating system, including process scheduling, disk storage, and memory management.",textbook_chunk_409,general
+We discuss these considerations throughout the text.,textbook_chunk_410,general
+"In a time-sharing system, the operating system must ensure reasonable response time.",textbook_chunk_411,general
+"This goal is sometimes accomplished through swapping , whereby processes are swapped in and out of main memory to the disk.",textbook_chunk_412,general
+"A more common method for ensuring reasonable response time is virtual memory ,a technique that allows the execution of a process that is not completely in",textbook_chunk_413,general
+"jects 345 Programming Projects Bankers Algorithm For this project, you will write a multithreaded program that implements the bankers algorithm discussed in Section 7.5.3.",textbook_chunk_414,general
+Several customers request and release resources from the bank.,textbook_chunk_415,general
+The banker will grant a request only if it leaves the system in a safe state.,textbook_chunk_416,general
+A request that leaves the system in an unsafe state will be denied.,textbook_chunk_417,general
+"This programming assignment combines three separate topics: (1) multithreading, (2) preventing race con ditions, and (3) deadlock avoidance.",textbook_chunk_418,general
+The Banker The banker will consider requests from ncustomers for mresources types.,textbook_chunk_419,general
+as outlined in Section 7.5.3.,textbook_chunk_420,general
+The banker will keep track of the resources using the following data structures:  these may be any values  0  define NUMBER OF CUSTOMERS 5 define NUMBER OF RESOURCES 3  the available amount of each resource  int availableNUMBER OF RESOURCES; the maximum demand of each customer  int maximumNUMBER OF CUSTOMERSNUMBER OF RESOURCES;  the amount currently allocated to each customer  int allocationNUMBER OF CUSTOMERSNUMBER OF RESOURCES;  the remaining need of each customer  int needNUMBER OF CUSTOMERSNUMBER OF RESOURCES; The Customers Create ncustomer threads that request and release resources from the bank.,textbook_chunk_421,general
+"The customers will continually loop, requesting and then releasing random numbers of resources.",textbook_chunk_422,general
+The customers requests for resources will be bounded by their respective values in the need array.,textbook_chunk_423,general
+The banker will grant a request if it satisﬁes the safety algorithm outlined in Section 7.5.3.1.,textbook_chunk_424,general
+"If a request does not leave the system in a safe state, the banker will deny it.",textbook_chunk_425,general
+"Function prototypes for requesting and releasing resources are as follows: int request resources(int customer num, int request); int release resources(int customer num, int release); These two functions should return 0 if successful (the request has been granted) and 1 if unsuccessful.",textbook_chunk_426,general
+Multiple threads (customers),textbook_chunk_427,general
+"ain Memory OBTAINING THE PAGE SIZE ON LINUX SYSTEMS On a Linux system, the page size varies according to architecture, and there are several ways of obtaining the page size.",textbook_chunk_428,memory_management
+One approach is to use thegetpagesize() system call.,textbook_chunk_429,memory_management
+Another strategy is to enter the following command on the command line: getconf PAGESIZE Each of these techniques returns the page size as a number of bytes.,textbook_chunk_430,memory_management
+"Thus, logical address 0 maps to physical address 20  (5 4)  0.",textbook_chunk_431,memory_management
+"Logical address 3 (page 0, offset 3) maps to physical address 23  (5 4)  3.",textbook_chunk_432,memory_management
+"Logical address 4 is page 1, offset 0; according to the page table, page 1 is mapped to frame 6.",textbook_chunk_433,memory_management
+"Thus, logical address 4 maps to physical address 24  (6 4)  0.",textbook_chunk_434,memory_management
+Logical address 13 maps to physical address 9.,textbook_chunk_435,memory_management
+You may have noticed that paging itself is a form of dynamic relocation.,textbook_chunk_436,memory_management
+Every logical address is bound by the paging hardware to some physical address.,textbook_chunk_437,memory_management
+"Using paging is similar to using a table of base (or relocation) registers, one for each frame of memory.",textbook_chunk_438,memory_management
+"When we use a paging scheme, we hav en oe x t e r n a lf r a g m e n t a t",textbook_chunk_439,memory_management
+i o n :a n yf r e e frame can be allocated to a process that needs it.,textbook_chunk_440,memory_management
+"However, we may have some internal fragmentation.",textbook_chunk_441,memory_management
+Notice that frames are allocated as units.,textbook_chunk_442,memory_management
+"If the memory requirements of a process do not happen to coincide with page boundaries, the last frame allocated may not be completely full.",textbook_chunk_443,memory_management
+"For example, if page size is 2,048 bytes, a process of 72,766 bytes will need 35 pages plus 1,086 bytes.",textbook_chunk_444,memory_management
+"It will be allocated 36 frames, resulting in internal fragmentation of 2,048 1,086 9 6 2b y t e s .I",textbook_chunk_445,memory_management
+"nt h ew o r s tc a s e ,ap r o c e s sw o u l dn e e d npages plus 1 byte.",textbook_chunk_446,memory_management
+It would be allocated n1f,textbook_chunk_447,memory_management
+"r a m e s ,r e s u l t",textbook_chunk_448,memory_management
+i n gi ni n t e r n a lf r a g m e n t a t,textbook_chunk_449,memory_management
+i o no fa l m o s t an entire frame.,textbook_chunk_450,memory_management
+"If process size is independent of page size, we expect internal fragmentation to average one-half page per process.",textbook_chunk_451,memory_management
+This consideration suggests that small page sizes are desirable.,textbook_chunk_452,memory_management
+"However, overhead is involved in each page-table entry, and this overhead is reduc ed as the size of the pages increases.",textbook_chunk_453,memory_management
+"Also, disk IOis more efﬁcient when the amount data being transferred is larger (Chapter 10).",textbook_chunk_454,memory_management
+"Generally, page sizes have grown over time as processes, data sets, and main memory have become larger.",textbook_chunk_455,memory_management
+"Today, pages typically are between 4KBand 8 KBin size, and some systems support even larger page sizes.",textbook_chunk_456,memory_management
+Some CPUsa n dk e r n e l se v e ns u p p o r tm u l t,textbook_chunk_457,memory_management
+i p l ep a g es i z e s .F,textbook_chunk_458,memory_management
+"o ri n s t a n c e ,S o l a r i su s e s page sizes of 8 KBand 4 MB,",textbook_chunk_459,memory_management
+i n go nt h ed a t as t o r e db yt,textbook_chunk_460,memory_management
+Researchers are now developing support for variable on-the-ﬂy page size.,textbook_chunk_461,memory_management
+"Frequently, on a 32-bit CPU, each page-table entry is 4 bytes long, but that size can vary as well.",textbook_chunk_462,memory_management
+A 32-bit entry can point to one of 232physical page frames.,textbook_chunk_463,memory_management
+"If frame size is 4 KB(212), then a system with 4-byte entries can address 244bytes (or 16 TB)o",textbook_chunk_464,memory_management
+i c a lm e m o r y .W,textbook_chunk_465,memory_management
+i c a l memory in a paged memory system is different from the maximum logical size of a process.,textbook_chunk_466,memory_management
+"As we further explore paging, we introduce other information that must be kept in the page-table entries.",textbook_chunk_467,memory_management
+That information reduces the number,textbook_chunk_468,memory_management
+"File-System Interface access, the ﬁle is viewed as a numbered s equence of blocks or records.",textbook_chunk_469,general
+"Thus, we may read block 14, then read block 53, and then write block 7.",textbook_chunk_470,general
+There are no restrictions on the order of reading or writing for a direct-access ﬁle.,textbook_chunk_471,general
+Direct-access ﬁles are of great use for immediate access to large amounts of information.,textbook_chunk_472,general
+Databases are often of this type.,textbook_chunk_473,general
+"When a query concerning a particular subject arrives, we compute which block contains the answer and then read that block directly to provide the desired information.",textbook_chunk_474,general
+"As a simple example, on an airline-reservation system, we might store all the information about a particular ﬂight (for example, ﬂight 713) in the block identiﬁed by the ﬂight number.",textbook_chunk_475,general
+"Thus, the number of available seats for ﬂight 713 is stored in block 713 of the reservation ﬁle.",textbook_chunk_476,general
+"To store information about a larger set, such as people, we might compute a hash function on the peoples names or search a small in-memory index to determine a block to read and search.",textbook_chunk_477,general
+"For the direct-access method, the ﬁle operations must be modiﬁed to include the block number as a parameter.",textbook_chunk_478,general
+"Thus, we have read(n) ,w h e r e nis the block number, rather than read next() ,a n d write(n) rather than write next() .A",textbook_chunk_479,general
+i v ea p p r o a c hi st or e t,textbook_chunk_480,general
+"a i n read next() and write next() ,a sw i t hs e",textbook_chunk_481,general
+"i a la c c e s s ,a n dt oa d",textbook_chunk_482,general
+i o n posi- tion file(n) where nis the block number.,textbook_chunk_483,general
+"Then, to effect a read(n) ,w e would position file(n) and then read next() .",textbook_chunk_484,general
+The block number provided by the user to the operating system is normally arelative block number .Ar e l a t,textbook_chunk_485,general
+c kn u m b e ri sa ni n d e xr e l a t,textbook_chunk_486,general
+i v et ot h e beginning of the ﬁle.,textbook_chunk_487,general
+"Thus, the ﬁrst relative block of the ﬁle is 0, the next is 1, and so on, even though the absolute disk address may be 14703 for the ﬁrst block and 3192 for the second.",textbook_chunk_488,general
+"The use of relative block numbers allows the operating system to decide where the ﬁle should be placed (called the allocation problem ,a sw ed i s c u s si nC h a p t e r1 2 )a n dh e l p st op r e v e n tt",textbook_chunk_489,general
+h eu s e r from accessing portions of the ﬁle system that may not be part of her ﬁle.,textbook_chunk_490,general
+Some systems start their relative block numbers at 0; others start at 1.,textbook_chunk_491,general
+"How, then, does the system satisfy a request for record Nin a ﬁle?",textbook_chunk_492,general
+"Assuming we have a logical record length L,the request for record Nis turned into an IOrequest for Lbytes starting at location L(N)w",textbook_chunk_493,general
+i nt h eﬁ l e( a s s u m i n gt h e ﬁrst record is N0 ),textbook_chunk_494,general
+"i c a lr e c o r d sa r eo faﬁ x e ds i z e ,i ti sa l s oe a s yt o read, write, or delete a record.",textbook_chunk_495,general
+Not all operating systems support both sequential and direct access for ﬁles.,textbook_chunk_496,general
+Some systems allow only sequential ﬁle access; others allow only direct access.,textbook_chunk_497,general
+Some systems require that a ﬁle be deﬁned as sequential or direct when it is created.,textbook_chunk_498,general
+Such a ﬁle can be accessed only in a manner consistent with its declaration.,textbook_chunk_499,general
+"We can easily simulate sequential access on a direct-access ﬁle by simply keeping a variable cpthat deﬁnes our current position, as shown in Figure 11.5.",textbook_chunk_500,general
+"Simulating a direct-access ﬁle on a sequential-access ﬁle, however, is extremely inefﬁcient and clumsy.",textbook_chunk_501,general
+11.2.3 Other Access Methods Other access methods can be built on top of a direct-access method.,textbook_chunk_502,general
+These methods generally involve the construction of an index for the ﬁle.,textbook_chunk_503,general
+"The index , like an index in the back of a book, contains pointers to the various blocks.",textbook_chunk_504,general
+troduction temporary basis.,textbook_chunk_505,general
+"When we need a particular piece of information, we ﬁrst check whether it is in the cache.",textbook_chunk_506,general
+"If it is, we use the information directly from the cache.",textbook_chunk_507,general
+"If it is not, we use the information from the source, putting a copy in the cache under the assumption that we will need it again soon.",textbook_chunk_508,general
+"In addition, internal programmable registers, such as index registers, provide a high-speed cache for main memory.",textbook_chunk_509,general
+The programmer (or compiler) implements the register-allocation and register-replacement algorithms to decide which information to keep in registers and which to keep in main memory.,textbook_chunk_510,general
+Other caches are implemented totally in hardware.,textbook_chunk_511,general
+"For instance, most systems have an instruction cache to hold the instructions expected to be executed next.",textbook_chunk_512,general
+"Without this cache, the CPU would have to wait several cycles while an instruction was fetched from main memory.",textbook_chunk_513,general
+"For similar reasons, most systems have one or more high-speed data caches in the memory hierarchy.",textbook_chunk_514,general
+"We are not concerned with these hardware-only caches in this text, since they are outside the control of the operating system.",textbook_chunk_515,general
+"Because caches have limited size, cache management is an important design problem.",textbook_chunk_516,general
+Careful selection of the cache size and of a replacement policy can result in greatly increased performance.,textbook_chunk_517,general
+Figure 1.11 compares storage performance in large workstations and small servers.,textbook_chunk_518,general
+Various replacement algorithms for software-controlled caches are discussed in Chapter 9.,textbook_chunk_519,general
+"Main memory can be viewed as a fast cache for secondary storage, since data in secondary storage must be copied into main memory for use and data must be in main memory before being moved to secondary storage for safekeeping.",textbook_chunk_520,general
+"The ﬁle-system data, which resides permanently on secondary storage, may appear on several levels in the storage hierarchy.",textbook_chunk_521,general
+"At the highest level, the operating system may maintain a cache of ﬁle-system data in main memory.",textbook_chunk_522,general
+"In addition, solid-state disks may be used for high-speed storage that is accessed through the ﬁle-system interface.",textbook_chunk_523,general
+The bulk of secondary storage is on magnetic disks.,textbook_chunk_524,general
+"The magnetic-disk storage, in turn, is often backed up onto magnetic tapes or removable disks to protect against data loss in case of a hard-disk failure.",textbook_chunk_525,general
+"Some systems automatically archive old ﬁle data from secondary storage to tertiary storage, such as tape jukeboxes, to lower the storage cost (see Chapter 10).",textbook_chunk_526,general
+Level Name Typical size Implementation technology,textbook_chunk_527,general
+"Access time (ns) Bandwidth (MBsec) Managed by Backed by1 registers  1 KB custom memory with multiple ports CMOS 0.25 - 0.5 20,000 - 100,000 compiler cache2 cache  16MB on-chip or off-chip CMOS SRAM 0.5 - 25 5,000 - 10,000 hardware main memory3 main memory  64GB CMOS SRAM 80 - 250 1,000 - 5,000 operating system disk4 solid state disk  1 TB flash memory 25,000 - 50,000 500 operating system disk5 magnetic disk  10 TB magnetic disk 5,000,000 20 - 150 operating system disk or tape Figure 1.11 Performance of various levels of storage.",textbook_chunk_528,general
+"rocesses system has user programs ,o rtasks .E v e",textbook_chunk_529,process_management
+no nas i n g l e - u s e rs y s,textbook_chunk_530,process_management
+"t e m ,au s e rm a y be able to run several programs at one time: a word processor, a Web browser, and an e-mail package.",textbook_chunk_531,process_management
+"And even if a user can execute only one program at a time, such as on an embedded device that does not support multitasking, the operating system may need to support its own internal programmed activities, such as memory management.",textbook_chunk_532,process_management
+"In many respects, all these activities are similar, so we call all of them processes .",textbook_chunk_533,process_management
+The terms joband process are used almost interchangeably in this text.,textbook_chunk_534,process_management
+"Although we personally prefer the term process ,m u c ho fo p e r a t",textbook_chunk_535,process_management
+i n g - s y s t e m theory and terminology was developed during a time when the major activity of operating systems was job processing.,textbook_chunk_536,process_management
+It would be misleading to avoid the use of commonly accepted terms that include the word job(such as job scheduling,textbook_chunk_537,process_management
+i m p l yb e c a u s e process has superseded job.,textbook_chunk_538,process_management
+"The Process Informally, as mentioned earlier, a process is a program in execution.",textbook_chunk_539,process_management
+"A process is more than the program code, which is sometimes known as the text section .",textbook_chunk_540,process_management
+"It also includes the current activity, as represented by the value of the program counter and the contents of the processors registers.",textbook_chunk_541,process_management
+"A process generally also includes the process stack ,w h",textbook_chunk_542,process_management
+a i n st e m p o r a r yd a t a( s u c ha sf u n c t,textbook_chunk_543,process_management
+"i o n parameters, return addresses, and local variables), and a data section ,w h",textbook_chunk_544,process_management
+i c h contains global variables.,textbook_chunk_545,process_management
+"A process may also include a heap ,w h",textbook_chunk_546,process_management
+i c hi sm e m o r y that is dynamically allocated during process run time.,textbook_chunk_547,process_management
+The structure of a process in memory is shown in Figure 3.1.,textbook_chunk_548,process_management
+We emphasize that a program by itself is not a process.,textbook_chunk_549,process_management
+"A program is a passive entity, such as a ﬁle containing a list of instructions stored on disk (often called an executable ﬁle ).",textbook_chunk_550,process_management
+"In contrast, a process is an active entity, with a program counter specifying the next instruction to execute and a set of associated resources.",textbook_chunk_551,process_management
+A program becomes a process when an executable ﬁle is loaded into memory.,textbook_chunk_552,process_management
+Two common tec hniques for loading executable ﬁles text 0max dataheapstack Figure 3.1 Process in memory.,textbook_chunk_553,process_management
+27 We can limit the effects of thrashing by using a local replacement algorithm (orpriority replacement algorithm ).,textbook_chunk_554,general
+"With local replacement, if one process starts thrashing, it cannot steal frames from another process and cause the latter to thrash as well.",textbook_chunk_555,general
+"However, the problem is not entirely solved.",textbook_chunk_556,general
+"If processes are thrashing, they will be in the queue for the paging device most of the time.",textbook_chunk_557,general
+The average service time for a page fault will increase because of the longer average queue for the paging device.,textbook_chunk_558,general
+"Thus, the effective access time will increase even for a process that is not thrashing.",textbook_chunk_559,general
+"To prevent thrashing, we must provide a process with as many frames as it needs.",textbook_chunk_560,general
+But how do we know how many frames it needs ?,textbook_chunk_561,general
+T h e r ea r es e v e r a l techniques.,textbook_chunk_562,general
+The working-set strategy (Section 9.6.2) starts by looking at how many frames a process is actually using.,textbook_chunk_563,general
+This approach deﬁnes the locality model of process execution.,textbook_chunk_564,general
+"The locality model states that, as a process executes, it moves from locality to locality.",textbook_chunk_565,general
+A locality is a set of pages that are actively used together (Figure 9.19).,textbook_chunk_566,general
+"A program is generally composed of several different localities, which may overlap.",textbook_chunk_567,general
+"For example, when a function is called, it deﬁnes a new locality.",textbook_chunk_568,general
+"In this locality, memory references are made to the instructions of the function call, its local variables, and a subset of the global variables.",textbook_chunk_569,general
+"When we exit the function, the process leaves this locality, since the local variables and instructions of the function are no longer in active use.",textbook_chunk_570,general
+We may return to this locality later.,textbook_chunk_571,general
+"Thus, we see that localities are deﬁned by the program structure and its data structures.",textbook_chunk_572,general
+The locality model states that all programs will exhibit this basic memory reference structure.,textbook_chunk_573,general
+Note that the locality model is the unstated principle behind the caching discussions so far in this book.,textbook_chunk_574,general
+"If accesses to any types of data were random rather than patterned, caching would be useless.",textbook_chunk_575,general
+Suppose we allocate enough frames to a process to accommodate its current locality.,textbook_chunk_576,general
+"It will fault for the pages in its locality until all these pages are in memory; then, it will not fault again until it changes localities.",textbook_chunk_577,general
+"If we do not allocate enough frames to accommodate the size of the current locality, the process will thrash, since it cannot keep in memory all the pages that it is actively using.",textbook_chunk_578,general
+"9.6.2 Working-Set Model As mentioned, the working-set model is based on the assumption of locality.",textbook_chunk_579,general
+"This model uses a parameter, Delta1,t od e ﬁ n et h e working-set window .T",textbook_chunk_580,general
+h ei d e a is to examine the most recent Delta1page references.,textbook_chunk_581,general
+The set of pages in the most recent Delta1page references is the working set (Figure 9.20).,textbook_chunk_582,general
+"If a page is in active use, it will be in the working set.",textbook_chunk_583,general
+"If it is no longer being used, it will drop from the working set Delta1time units after its last reference.",textbook_chunk_584,general
+"Thus, the working set is an approximation of the programs locality.",textbook_chunk_585,general
+"For example, given the sequence of memory references shown in Figure 9.20, if Delta11 0m e m o r yr e f e r e n c e s ,t h e nt h ew o r k i n gs e ta tt i m e t1is1, 2, 5, 6, 7.",textbook_chunk_586,general
+"By time t2,t h ew o r k",textbook_chunk_587,general
+"a sc h a n g e dt o 3, 4.",textbook_chunk_588,general
+"The accuracy of the working set depends on the selection of Delta1.I fDelta1is too small, it will not encompass the entire locality; if Delta1is too large, it may overlap several localities.",textbook_chunk_589,general
+"In the extreme, if Delta1is inﬁnite, the working set is the set of pages touched during the process execution.",textbook_chunk_590,general
+"The Linux System Early in its development, the Linux source code was made available free both at no cost and with minimal distributional restrictionson the Internet.",textbook_chunk_591,general
+"As a result, Linuxs history has been one of collaboration by many developers from all around the world, correspondi ng almost exclusively over the Internet.",textbook_chunk_592,general
+"From an initial kernel that partially implemented a small subset of the UNIX system services, the Linux system has grown to include all of the functionality expected of a modern UNIX system.",textbook_chunk_593,general
+"In its early days, Linux development revolved largely around the central operating-system kernelthe core, privileged executive that manages all system resources and interacts directly with the computer hardware.",textbook_chunk_594,general
+"We need much more than this kernel, of course, to produce a full operating system.",textbook_chunk_595,general
+We thus need to make a distinction between the Linux kernel and ac o m p l e t eL,textbook_chunk_596,general
+h e Linux kernel is an original piece of software developed from scratch by the Linux community.,textbook_chunk_597,general
+"The Linux system ,a sw e know it today, includes a multitude of components, some written from scratch, others borrowed from other developmen tp r o j e c t s ,a n ds t",textbook_chunk_598,general
+i l lo t h e r sc r e a t e di n collaboration with other teams.,textbook_chunk_599,general
+"The basic Linux system is a standard environment for applications and user programming, but it does not enforce any standard means of managing the available functionality as a whole.",textbook_chunk_600,general
+"As Linux has matured, a need has arisen for another layer of functionality on top of the Linux system.",textbook_chunk_601,general
+This need has been met by various Linux distributions.,textbook_chunk_602,general
+"A Linux distribution includes all the standard components of the Linux system, plus a set of administrative tools to simplify the initial installation and subsequent upgrading of Linux and to manage installation and removal of other packages on the system.",textbook_chunk_603,general
+"A modern distribution also typically includes tools for management of ﬁle systems, creation and management of user accounts, administration of networks, Web browsers, word processors, and so on.",textbook_chunk_604,general
+"The Linux Kernel The ﬁrst Linux kernel released to the public was version 0.01, dated May 14, 1991.",textbook_chunk_605,general
+"It had no networking, ran only on 80386-compatible Intel processors and PChardware, and had extremely limited device-driver support.",textbook_chunk_606,general
+"The virtual memory subsystem was also fairly basic and included no support for memory-mapped ﬁles; however, even this early incarnation supported shared pages with copy-on-write and protected address spaces.",textbook_chunk_607,general
+"The only ﬁle system supported was the Minix ﬁle system, as the ﬁrst Linux kernels were cross-developed on a Minix platform.",textbook_chunk_608,general
+"The next milestone, Linux 1.0, was released on March 14, 1994.",textbook_chunk_609,general
+This release culminated three years of rapid development of the Linux kernel.,textbook_chunk_610,general
+"Perhaps the single biggest new feature was networking: 1.0 included support for UNIX s standard TCPIP networking protocols, as well as a BSD-compatible socket interface for networking programming.",textbook_chunk_611,general
+Device-driver support was added for running IPover Ethernet or (via the PPPorSLIP protocols) over serial lines or modems.,textbook_chunk_612,general
+"The 1.0 kernel also included a new, much enhanced ﬁle system without the limitations of the original Minix ﬁle system, and it supported a range of SCSI controllers for high-performance disk access.",textbook_chunk_613,general
+The developers extended the vir- tual memory subsystem to support paging to swap ﬁles and memory mapping,textbook_chunk_614,general
+PU Scheduling output to the user.,textbook_chunk_615,general
+"Thus, another measure is the time from the submission of a request until the ﬁrst response is produced.",textbook_chunk_616,general
+"This measure, called response time, is the time it takes to start responding, not the time it takes to output the response.",textbook_chunk_617,general
+The turnaround time is generally limited by the speed of the output device.,textbook_chunk_618,general
+"It is desirable to maximize CPU utilization and throughput and to minimize turnaround time, waiting time, and response time.",textbook_chunk_619,general
+"In most cases, we optimize the average measure.",textbook_chunk_620,general
+"However, under some circumstances, we prefer to optimize the minimum or maximum values rather than the average.",textbook_chunk_621,general
+"For example, to guarantee that all users get good service, we may want to minimize the maximum response time.",textbook_chunk_622,general
+"Investigators have suggested that, for interactive systems (such as desktop systems), it is more important to minimize the variance in the response time than to minimize the average response time.",textbook_chunk_623,general
+A system with reasonable and predictable response time may be considered more desirable than a system that is faster on the average but is highly variable.,textbook_chunk_624,general
+"However, little work has been done on CPU-scheduling algorithms that minimize variance.",textbook_chunk_625,general
+"As we discuss various CPU-scheduling algorithms in the following section, we illustrate their operation.",textbook_chunk_626,general
+"An accurate illustration should involve many processes, each a sequence of several hundred CPU bursts and IO bursts.",textbook_chunk_627,general
+"For simplicity, though, we consider only one CPU burst (in milliseconds) per process in our examples.",textbook_chunk_628,general
+Our measure of comparison is the average waiting time.,textbook_chunk_629,general
+More elaborate evaluation mechanisms are discussed in Section 6.8.,textbook_chunk_630,general
+6.3 Scheduling Algorithms CPU scheduling deals with the problem of decid ing which of the processes in the ready queue is to be allocated the CPU.,textbook_chunk_631,general
+There are many different CPU-scheduling algorithms.,textbook_chunk_632,general
+"In this section, w ed e s c r i b es e v e r a lo ft h e m .",textbook_chunk_633,general
+"First-Come, First-Served Scheduling By far the simplest CPU-scheduling algorithm is the ﬁrst-come, ﬁrst-served (FCFS )scheduling algorithm.",textbook_chunk_634,general
+"With this scheme, the process that requests the CPU ﬁrst is allocated the CPU ﬁrst.",textbook_chunk_635,general
+The implementation of the FCFS policy is easily managed with a FIFO queue.,textbook_chunk_636,general
+"When a process enters the ready queue, its PCB is linked onto the tail of the queue.",textbook_chunk_637,general
+"When the CPU is free, it is allocated to the process at the head of the queue.",textbook_chunk_638,general
+The running process is then removed from the queue.,textbook_chunk_639,general
+The code for FCFS scheduling is simple to write and understand.,textbook_chunk_640,general
+"On the negative side, the average waiting time under the FCFS policy is often quite long.",textbook_chunk_641,general
+"Consider the following set of processes that arrive at time 0, with the length of the CPU burst given in milliseconds: Process Burst Time P1 24 P2 3 P3 3",textbook_chunk_642,general
+"location, and execution starts there.",textbook_chunk_643,general
+At that location is the initial bootstrap program.,textbook_chunk_644,general
+"This program is in the form of read-only memory ( ROM ), because the RAM is in an unknown state at system startup.",textbook_chunk_645,general
+ROM is convenient because it needs no initialization and cannot easily be infected by a computer virus.,textbook_chunk_646,general
+The bootstrap program can perform a variety of tasks.,textbook_chunk_647,general
+"Usually, one task is to run diagnostics to determine the state of the machine.",textbook_chunk_648,general
+"If the diagnostics pass, the program can continue with the booting steps.",textbook_chunk_649,general
+"It can also initialize all aspects of the system, from CPU registers to device controllers and the contents of main memory.",textbook_chunk_650,general
+"Sooner or later, it starts the operating system.",textbook_chunk_651,general
+"Some systemssuch as cellular phones, tablets, and game consolesstore the entire operating system in ROM .S t o r i n gt",textbook_chunk_652,general
+"y s t e mi n ROM is suitable for small operating systems, simple supporting hardware, and rugged operation.",textbook_chunk_653,general
+A problem with this approach is that changing the bootstrap code requires changing the ROM hardware chips.,textbook_chunk_654,general
+"Some systems resolve this problem by using erasable programmable read-only memory (EPROM ),w h",textbook_chunk_655,general
+a d - only except when explicitly given a command to become writable.,textbook_chunk_656,general
+"All forms ofROM are also known as ﬁrmware ,s i n c et h e",textbook_chunk_657,general
+i c sf a l ls o m e w h e r e between those of hardware and those of software.,textbook_chunk_658,general
+A problem with ﬁrmware in general is that executing code the re is slower than executing code in RAM .,textbook_chunk_659,general
+Some systems store the operating system in ﬁrmware and copy it to RAM for fast execution.,textbook_chunk_660,general
+"A ﬁnal issue with ﬁrmware is that it is relatively expensive, so usually only small amounts are available.",textbook_chunk_661,general
+"For large operating systems (including most general-purpose operating systems like Windows, Mac OS X ,a n d UNIX )o rf o rs y s t e m st h a tc h a n g e frequently, the bootstrap loader is stored in ﬁrmware, and the operating system is on disk.",textbook_chunk_662,general
+"In this case, the bootstrap runs diagnostics and has a bit of code that can read a single block at a ﬁxed location (say block zero) from disk into memory and execute the code from that boot block .",textbook_chunk_663,general
+The program stored in the boot block may be sophisticated enough to load the entire operating system into memory and begin its execution.,textbook_chunk_664,general
+"More typically, it is simple code (as it ﬁts in a single disk block) and knows only the address on disk and length of the remainder of the bootstrap program.",textbook_chunk_665,general
+GRUB is an example of an open-source bootstrap program for Linux systems.,textbook_chunk_666,general
+"All of the disk-bound bootstrap, and the operating system itself, can be easily changed by writing new versions to disk.",textbook_chunk_667,general
+A disk that has a boot partition (more on that in Section 10.5.1) is called a boot disk orsystem disk .,textbook_chunk_668,general
+"Now that the full bootstrap program has been loaded, it can traverse the ﬁle system to ﬁnd the operating system kernel, load it into memory, and start its execution.",textbook_chunk_669,general
+It is only at this point that the system is said to be running .,textbook_chunk_670,general
+2.11 Summary Operating systems provide a number of services.,textbook_chunk_671,general
+"At the lowest level, system calls allow a running program to make requests from the operating system directly.",textbook_chunk_672,general
+"At a higher level, the comman di n t e r p r e t e ro rs h e l lp r o v i d e sa mechanism for a user to issue a request without writing a program.",textbook_chunk_673,general
+Commands may come from ﬁles during batch-mode execution or directly from a terminal or desktop GUIwhen in an interactive or time-shared mode.,textbook_chunk_674,general
+System programs are provided to satisfy many common user requests.,textbook_chunk_675,general
+"PU Scheduling 2.When a process switches from the running state to the ready state (for example, when an interrupt occurs)",textbook_chunk_676,process_management
+"3.When a process switches from the waiting state to the ready state (for example, at completion of IO)",textbook_chunk_677,process_management
+"4.When a process terminates For situations 1 and 4, there is no choice in terms of scheduling.",textbook_chunk_678,process_management
+A new process (if one exists in the ready queue) must be selected for execution.,textbook_chunk_679,process_management
+"There is a choice, however, for situations 2 and 3.",textbook_chunk_680,process_management
+"When scheduling takes place only under circumstances 1 and 4, we say that the scheduling scheme is nonpreemptive orcooperative .O",textbook_chunk_681,process_management
+"t h e r w i s e , it is preemptive .",textbook_chunk_682,process_management
+"Under nonpreemptive scheduling, once the CPU has been allocated to a process, the process keeps the CPU until it releases the CPU either by terminating or by switching to the waiting state.",textbook_chunk_683,process_management
+This scheduling method was used by Microsoft Windows 3.x.,textbook_chunk_684,process_management
+"Windows 95 introduced preemptive scheduling, and all subsequent versions of Windows operating systems have used preemptive scheduling.",textbook_chunk_685,process_management
+The Mac OS X operating system for the Macintosh also uses preemptive scheduling; previous versions of the Macintosh operating system relied on cooperative scheduling.,textbook_chunk_686,process_management
+"Cooperative scheduling is the only method that can be used on certain hardware platforms, because it does not require the special hardware (for example, a timer) needed for preemptive scheduling.",textbook_chunk_687,process_management
+"Unfortunately, preemptive scheduling can result in race conditions when data are shared among several processes.",textbook_chunk_688,process_management
+Consider the case of two processes that share data.,textbook_chunk_689,process_management
+"While one process is updating the data, it is preempted so that the second process can run.",textbook_chunk_690,process_management
+"The second process then tries to read the data, which are in an inconsistent state.",textbook_chunk_691,process_management
+This issue was explored in detail in Chapter 5.,textbook_chunk_692,process_management
+Preemption also affects the design of the operating-system kernel.,textbook_chunk_693,process_management
+"During the processing of a system call, the kernel may be busy with an activity on behalf of a process.",textbook_chunk_694,process_management
+"Such activities may involve changing important kernel data (for instance, IOqueues).",textbook_chunk_695,process_management
+What happens if the process is preempted in the middle of these changes and the kernel (or the device driver) needs to read or modify the same structure?,textbook_chunk_696,process_management
+"Certain operating systems, including most versions of UNIX ,d e",textbook_chunk_697,process_management
+h e rf o ras y s t e mc a l l to complete or for an IOblock to take place before doing a context switch.,textbook_chunk_698,process_management
+"This scheme ensures that the kernel structure is simple, since the kernel will not preempt a process while the kernel data structures are in an inconsistent state.",textbook_chunk_699,process_management
+"Unfortunately, this kernel-execution model is a poor one for supporting real-time computing where tasks must complete execution within a given time frame.",textbook_chunk_700,process_management
+"In Section 6.6, we explore scheduling demands of real-time systems.",textbook_chunk_701,process_management
+"Because interrupts can, by de ﬁnition, occur at any time, and because they cannot always be ignored by the k ernel, the sections of code affected by interrupts must be guarded from simultaneous use.",textbook_chunk_702,process_management
+The operating system needs to accept interrupts at almost all times.,textbook_chunk_703,process_management
+"Otherwise, input might be lost or output overwritten.",textbook_chunk_704,process_management
+"So that these sections of code are not accessed concurrently by several processes, they disable interru pts at entry and reenable interrupts at exit.",textbook_chunk_705,process_management
+It is important to note that sections of code that disable interrupts do not occur very often and typically contain few instructions.,textbook_chunk_706,process_management
+"The Linux System Early in its development, the Linux source code was made available free both at no cost and with minimal distributional restrictionson the Internet.",textbook_chunk_707,general
+"As a result, Linuxs history has been one of collaboration by many developers from all around the world, correspondi ng almost exclusively over the Internet.",textbook_chunk_708,general
+"From an initial kernel that partially implemented a small subset of the UNIX system services, the Linux system has grown to include all of the functionality expected of a modern UNIX system.",textbook_chunk_709,general
+"In its early days, Linux development revolved largely around the central operating-system kernelthe core, privileged executive that manages all system resources and interacts directly with the computer hardware.",textbook_chunk_710,general
+"We need much more than this kernel, of course, to produce a full operating system.",textbook_chunk_711,general
+We thus need to make a distinction between the Linux kernel and ac o m p l e t eL,textbook_chunk_712,general
+h e Linux kernel is an original piece of software developed from scratch by the Linux community.,textbook_chunk_713,general
+"The Linux system ,a sw e know it today, includes a multitude of components, some written from scratch, others borrowed from other developmen tp r o j e c t s ,a n ds t",textbook_chunk_714,general
+i l lo t h e r sc r e a t e di n collaboration with other teams.,textbook_chunk_715,general
+"The basic Linux system is a standard environment for applications and user programming, but it does not enforce any standard means of managing the available functionality as a whole.",textbook_chunk_716,general
+"As Linux has matured, a need has arisen for another layer of functionality on top of the Linux system.",textbook_chunk_717,general
+This need has been met by various Linux distributions.,textbook_chunk_718,general
+"A Linux distribution includes all the standard components of the Linux system, plus a set of administrative tools to simplify the initial installation and subsequent upgrading of Linux and to manage installation and removal of other packages on the system.",textbook_chunk_719,general
+"A modern distribution also typically includes tools for management of ﬁle systems, creation and management of user accounts, administration of networks, Web browsers, word processors, and so on.",textbook_chunk_720,general
+"The Linux Kernel The ﬁrst Linux kernel released to the public was version 0.01, dated May 14, 1991.",textbook_chunk_721,general
+"It had no networking, ran only on 80386-compatible Intel processors and PChardware, and had extremely limited device-driver support.",textbook_chunk_722,general
+"The virtual memory subsystem was also fairly basic and included no support for memory-mapped ﬁles; however, even this early incarnation supported shared pages with copy-on-write and protected address spaces.",textbook_chunk_723,general
+"The only ﬁle system supported was the Minix ﬁle system, as the ﬁrst Linux kernels were cross-developed on a Minix platform.",textbook_chunk_724,general
+"The next milestone, Linux 1.0, was released on March 14, 1994.",textbook_chunk_725,general
+This release culminated three years of rapid development of the Linux kernel.,textbook_chunk_726,general
+"Perhaps the single biggest new feature was networking: 1.0 included support for UNIX s standard TCPIP networking protocols, as well as a BSD-compatible socket interface for networking programming.",textbook_chunk_727,general
+Device-driver support was added for running IPover Ethernet or (via the PPPorSLIP protocols) over serial lines or modems.,textbook_chunk_728,general
+"The 1.0 kernel also included a new, much enhanced ﬁle system without the limitations of the original Minix ﬁle system, and it supported a range of SCSI controllers for high-performance disk access.",textbook_chunk_729,general
+The developers extended the vir- tual memory subsystem to support paging to swap ﬁles and memory mapping,textbook_chunk_730,general
+erating-System Structures changes in the appearance of the GUI along with several enhancements in its functionality.,textbook_chunk_731,general
+"Because a mouse is impractical for most mobile systems, smartphones and handheld tablet computers typically use a touchscreen interface.",textbook_chunk_732,general
+"Here, users interact by making gestures on the touchscreenfor example, pressing and swiping ﬁngers across the screen.",textbook_chunk_733,general
+Figure 2.3 illustrates the touchscreen of the Apple iPad.,textbook_chunk_734,general
+"Whereas earlier smartphones included a physical keyboard, most smartphones now simulate a keyboard on the touchscreen.",textbook_chunk_735,general
+"Traditionally, UNIX systems have been dominated by command-line inter- faces.",textbook_chunk_736,general
+"Various GUIinterfaces are available, however .T",textbook_chunk_737,general
+h e s ei n c l u d et h eC,textbook_chunk_738,general
+"o m m o n Desktop Environment ( CDE)a n dX - W i n d o w ss y s t e m s ,w h",textbook_chunk_739,general
+"i c ha r ec o m m o n on commercial versions of UNIX ,s u c ha sS",textbook_chunk_740,general
+o l a r i sa n dI B M  s AIX system.,textbook_chunk_741,general
+"In addition, there has been signiﬁcant development in GUI designs from various open-source projects, such as KD e s k t o pE n v",textbook_chunk_742,general
+i r o n m e n t (orKDE)a n dt h e GNOME desktop by the GNU project.,textbook_chunk_743,general
+"Both the KDE and GNOME desktops run on Linux and various UNIX systems and are available under open-source licenses, which means their source code is readily available for reading and for modiﬁcation under speciﬁc license terms.",textbook_chunk_744,general
+The iPad touchscreen.,textbook_chunk_745,general
+"The Linux System variable to determine how to perform operations on the users display, such as moving the cursor and scrolling a region of text.",textbook_chunk_746,general
+Programs with multilingual support use the LANG variable to determine the language in which to display system messages for programs that include multilingual support.,textbook_chunk_747,general
+The environment-variable mechanism custom-tailors the operating system on a per-process basis.,textbook_chunk_748,general
+Users can choose their own languages or select their own editors independently of one another.,textbook_chunk_749,general
+18.4.1.3 Process Context The process identity and environment properties are usually set up when a process is created and not changed until that process exits.,textbook_chunk_750,general
+"A process may choose to change some aspects of its identity if it needs to do so, or it may alter its environment.",textbook_chunk_751,general
+"In contrast, process context is the state of the running program at any one time; it changes constantly.",textbook_chunk_752,general
+Process context includes the following parts: Scheduling context .T,textbook_chunk_753,general
+o s ti m p o r t a n tp a r to ft h ep r o c e s sc o n t e x,textbook_chunk_754,general
+ti si t s scheduling contextthe information that the scheduler needs to suspend and restart the process.,textbook_chunk_755,general
+This information includes saved copies of all the processs registers.,textbook_chunk_756,general
+Floating-point registers are stored separately and are restored only when needed.,textbook_chunk_757,general
+"Thus, processes that do not use ﬂoating-point arithmetic do not incur the overhe ad of saving that state.",textbook_chunk_758,general
+The scheduling context also includes information about scheduling priority and about any outstanding signals waiting to be delivered to the process.,textbook_chunk_759,general
+"A key part of the scheduling context is the processs kernel stack, a separate area of kernel memory reserved for use by kernel-mode code.",textbook_chunk_760,general
+Both system calls and interrupts that occur while the process is executing will use this stack.,textbook_chunk_761,general
+h ek e r n e lm a i n t a,textbook_chunk_762,general
+na b o u tt h e resources currently being consumed by each process and the total resources consumed by the process in its entire lifetime so far.,textbook_chunk_763,general
+The ﬁle table is an array of pointers to kernel ﬁle structures representing open ﬁles.,textbook_chunk_764,general
+"When making ﬁle- IOsystem calls, processes refer to ﬁles by an integer, known as a ﬁle descriptor (fd),t h a tt h ek e r n e lu s e s to index into this table.",textbook_chunk_765,general
+File-system context .W,textbook_chunk_766,general
+"x i s t i n go p e nﬁ l e s ,t h e ﬁle-system context applies to requests to open new ﬁles.",textbook_chunk_767,general
+"The ﬁle-system context includes the processs root directory, current working directory, and namespace.",textbook_chunk_768,general
+Signal-handler table .UNIX,textbook_chunk_769,general
+systems can deliver asynchronous signals to ap r o c e s si nr e s p o n s et ov a r i o u se x t e r n al events.,textbook_chunk_770,general
+The signal-handler table deﬁnes the action to take in response to a speciﬁc signal.,textbook_chunk_771,general
+"Valid actions include ignoring the signal, terminating the process, and invoking a routine in the processs address space.",textbook_chunk_772,general
+Virtual memory context .T h ev i r t u a lm e m o r yc o n t e x,textbook_chunk_773,general
+td e s c r i b e st h ef u l l contents of a processs private address space; we discuss it in Section 18.6.,textbook_chunk_774,general
+cept 109process P0 process P1 save state into PCB0 save state into PCB1reload state from PCB1 reload state from PCB0operating system idle idleexecuting idleexecuting executinginterrupt or system call interrupt or system call      Figure 3.4 Diagram showing CPU switch from process to process.,textbook_chunk_775,general
+Accounting information .T,textbook_chunk_776,general
+i o ni n c l u d e st h,textbook_chunk_777,general
+"ea m o u n to f CPU and real time used, time limits, account numbers, job or process numbers, and so on.",textbook_chunk_778,general
+IOstatus information .T,textbook_chunk_779,general
+"i s to f IOdevices allocated to the process, a list of open ﬁles, and so on.",textbook_chunk_780,general
+"In brief, the PCB simply serves as the repository for any information that may vary from process to process.",textbook_chunk_781,general
+The process model discussed so far has implied that a process is a program that performs a single thread of execution.,textbook_chunk_782,general
+"For example, when a process is running aw o r d - p r o c e s s o rp r o g r a m ,as i n g l et h r e a do fi n s t r u c t i o n si sb e i n ge x e c u t e d .",textbook_chunk_783,general
+This single thread of control allows the process to perform only one task at at i m e .T,textbook_chunk_784,general
+h eu s e rc a n n o ts i m u l t a n e o u s l yt y p ei nc h a r a c t e r sa n dr,textbook_chunk_785,general
+"u nt h es p e l l checker within the same process, for example.",textbook_chunk_786,general
+Most modern operating systems have extended the process concept to allow a process to have multiple threads of execution and thus to perform more than one task at a time.,textbook_chunk_787,general
+"This feature is especially beneﬁcial on multicore systems, where multiple threads can run in parallel.",textbook_chunk_788,general
+"On a system that supports threads, the PCB is expanded to include information for each thread.",textbook_chunk_789,general
+Other changes throughout the system are also needed to support threads.,textbook_chunk_790,general
+Chapter 4 explores threads in detail.,textbook_chunk_791,general
+PU Scheduling 285 response to event real-time process executionevent conflicts timedispatch response interval dispatch latencyprocess made available interrupt processing Figure 6.14 Dispatch latency.,textbook_chunk_792,general
+time operating systems to minimize interrupt latency to ensure that real-time tasks receive immediate attention.,textbook_chunk_793,general
+"Indeed, for hard real-time systems, interrupt latency must not simply be minimized, it must be bounded to meet the strict requirements of these systems.",textbook_chunk_794,general
+One important factor contributing to interrupt latency is the amount of time interrupts may be disabled while kernel data structures are being updated.,textbook_chunk_795,general
+Real-time operating systems require that interrupts be disabled for only very short periods of time.,textbook_chunk_796,general
+The amount of time required for the scheduling dispatcher to stop one process and start another is known as dispatch latency.,textbook_chunk_797,general
+Providing real-time tasks with immediate access to the CPU mandates that real-time operating systems minimize this latency as well.,textbook_chunk_798,general
+The most effective technique for keeping dispatch latency low is to provide preemptive kernels.,textbook_chunk_799,general
+"In Figure 6.14, we diagram the makeup of dispatch latency.",textbook_chunk_800,general
+"The conﬂict phase of dispatch latency has two components: 1.Preemption of any process running in the kernel 2.Release by low-priority processes of resources needed by a high-priority process As an example, in Solaris, the dispatch latency with preemption disabled is over a hundred milliseconds.",textbook_chunk_801,general
+"With preemption enabled, it is reduced to less than a millisecond.",textbook_chunk_802,general
+6.6.2 Priority-Based Scheduling,textbook_chunk_803,general
+The most important feature of a real-time operating system is to respond immediately to a real-time process as soon as that process requires the CPU.,textbook_chunk_804,general
+"The critical-section compiler directive can be used to remedy this race condition and is coded as follows: void update(int value)  pragma omp critical  counter  value;   The critical-section compiler directive behaves much like a binary semaphore or mutex lock, ensuring that only one thread at a time is active in the critical section.",textbook_chunk_805,general
+"If a thread attempts to enter a critical section when another thread is currently active in that section (that is, owns the section), the calling thread is blocked until the owner thread exits.",textbook_chunk_806,general
+"If multiple critical sections must be used, each critical section can be assigned a separate name, and a rule can specify that no more than one thread may be active in a critical section of the same name simultaneously.",textbook_chunk_807,general
+An advantage of using the critical-section compiler directive in Open MP is that it is generally considered easier to use than standard mutex locks.,textbook_chunk_808,general
+"However, a disadvantage is that application developers must still identify possible race conditions and adequately protect shared data using the compiler directive.",textbook_chunk_809,general
+"Additionally, because the critical-section compiler directive behaves much like a mutex lock, deadlock is still possible when two or more critical sections are identiﬁed.",textbook_chunk_810,general
+"5.10.3 Functional Programming Languages Most well-known programming languagessuch as C, C, Java, and C are known as imperative (orprocedural )l a n g u a g e s",textbook_chunk_811,general
+i v el a n g u a g e sa r e used for implementing algorithms that are state-based.,textbook_chunk_812,general
+"In these languages, the ﬂow of the algorithm is crucial to its correct operation, and state is represented with variables and other data structures.",textbook_chunk_813,general
+"Of course, program state is mutable, as variables may be assigned different values over time.",textbook_chunk_814,general
+"With the current emphasis on concurrent and parallel programming for multicore systems, there has been greater focus on functional programming languages, which follow a programming paradigm much different from that offered by imperative languages.",textbook_chunk_815,general
+The fundamental difference between imperative and functional languages is that functional languages do not maintain state.,textbook_chunk_816,general
+"That is, once a variable has been deﬁned and assigned a value, its value is immutableit cannot change.",textbook_chunk_817,general
+"Because functional languages disallow mutable state, they need not be concerned with issues such as race conditions and deadlocks.",textbook_chunk_818,general
+"Essentially, most of the problems addressed in this chapter are nonexistent in functional languages.",textbook_chunk_819,general
+"Several functional languages are pr esently in use, and we brieﬂy mention two of them here: Erlang and Scala.",textbook_chunk_820,general
+The Erlang language has gained signiﬁcant attention because of its support for concurrency and the ease with which it can be used to develop applications that run on parallel systems.,textbook_chunk_821,general
+Scala is a functional language that is also object-oriented.,textbook_chunk_822,general
+"In fact, much of the syntax of Scala is similar to the popular object-oriented languages Java and C. Readers",textbook_chunk_823,general
+ain Memory H11001 MMUCPU memory 1434614000relocation register 346logical addressphysical address Figure 8.4 Dynamic relocation using a relocation register.,textbook_chunk_824,general
+binding scheme results in differing logical and physical addresses.,textbook_chunk_825,general
+"In this case, we usually refer to the logical address as a virtual address .",textbook_chunk_826,general
+We use logical address and virtual address interchangeably in this text.,textbook_chunk_827,general
+The set of all logical addresses generated by a program is a logical address space .T,textbook_chunk_828,general
+h es e t of all physical addresses corresponding to these logical addresses is a physical address space .T,textbook_chunk_829,general
+"h u s ,i nt h ee x e c u t",textbook_chunk_830,general
+g i c a l and physical address spaces differ.,textbook_chunk_831,general
+The run-time mapping from virtual to physical addresses is done by a hardware device called the memory-management unit (MMU ).W,textbook_chunk_832,general
+"ec a nc h o o s e from many different methods to accomplish such mapping, as we discuss in Section 8.3 through Section 8.5.",textbook_chunk_833,general
+"For the time being, we illustrate this mapping with a simple MMU scheme that is a generalization of the base-register scheme described in Section 8.1.1.",textbook_chunk_834,general
+The base register is now called a relocation register .,textbook_chunk_835,general
+The value in the relocation register is added to every address generated by a user process at the time the address is sent to memory (see Figure 8.4).,textbook_chunk_836,general
+"For example, if the base is at 14000, then an attempt by the user to address location 0i sd y n a m i c a l l yr e l o c a t e dt ol o",textbook_chunk_837,general
+i o n1 4 0 0 0 ;a na c c e s st ol o c a t,textbook_chunk_838,general
+n3 4 6i sm a p p e d to location 14346.,textbook_chunk_839,general
+The user program never sees the real physical addresses.,textbook_chunk_840,general
+"The program can create a pointer to location 346, store it in memory, manipulate it, and compare it with other addressesall as the number 346.",textbook_chunk_841,general
+"Only when it is used as a memory address (in an indirect load or store, perhaps) is it relocated relative to the base register.",textbook_chunk_842,general
+The user program deals with logical addresses.,textbook_chunk_843,general
+The memory-mapping hardware converts logical addresses into physical addresses.,textbook_chunk_844,general
+This form of execution-time binding was discussed in Section 8.1.2.,textbook_chunk_845,general
+The ﬁnal location of ar e f e r e n c e dm e m o r ya d d r e s si sn o td e t e r m i n e du n t,textbook_chunk_846,general
+i lt h er e f e r e n c ei sm a d e .,textbook_chunk_847,general
+We now have two different types of addresses: logical addresses (in the range 0 to max)a n dp,textbook_chunk_848,general
+d r e s s e s( i nt h er a n g e R0t o Rmaxfor a base value R).,textbook_chunk_849,general
+The user program generates only logical addresses and thinks that the process runs in locations 0 to max.,textbook_chunk_850,general
+"However, these logical addresses must be mapped to physical addresses before they are used.",textbook_chunk_851,general
+The concept of a logical,textbook_chunk_852,general
+m Implementation 551 local file system type 1 disklocal file system type 2 diskremote file system type 1 networkfile-system interface VFS interface Figure 12.4 Schematic view of a virtual ﬁle system.,textbook_chunk_853,file_systems
+File handles are constructed from the relevant vnodes and are passed as arguments to these procedures.,textbook_chunk_854,file_systems
+The layer implementing the ﬁle-system type or the remote-ﬁle-system protocol is the third layer of the architecture.,textbook_chunk_855,file_systems
+Lets brieﬂy examine the VFSarchitecture in Linux.,textbook_chunk_856,file_systems
+"The four main object types deﬁned by the Linux VFSare: The inode object ,w h",textbook_chunk_857,file_systems
+i c hr e p r e s e n t sa ni n d,textbook_chunk_858,file_systems
+i c hr e p r e s e n t sa,textbook_chunk_859,file_systems
+"The superblock object ,w h",textbook_chunk_860,file_systems
+i c hr e p r e s e n t sa ne n t,textbook_chunk_861,file_systems
+i r eﬁ l es y s t e m,textbook_chunk_862,file_systems
+"The dentry object ,w h",textbook_chunk_863,file_systems
+i c hr e p r e s e n t sa ni n d,textbook_chunk_864,file_systems
+i r e c t o r ye n t r y,textbook_chunk_865,file_systems
+"For each of these four object types, the VFSdeﬁnes a set of operations that may be implemented.",textbook_chunk_866,file_systems
+Every object of one of these types contains a pointer to af u n c t,textbook_chunk_867,file_systems
+d r e s s e so ft h ea c t u a lf u n c t,textbook_chunk_868,file_systems
+i o n s that implement the deﬁned operations for that particular object.,textbook_chunk_869,file_systems
+"For example, an abbreviated APIfor some of the operations for the ﬁle object includes: int open(. . .)",textbook_chunk_870,file_systems
+Open a ﬁle. int close(...),textbook_chunk_871,file_systems
+Close an already-open ﬁle.,textbook_chunk_872,file_systems
+ssize tr e a d ( ... ) Read from a ﬁle. ssize tw r i t e ( ... ),textbook_chunk_873,file_systems
+W rite to a ﬁle. int mmap(. . .),textbook_chunk_874,file_systems
+"ules 789 of the most important user utilities is the shell ,t h es t a n d a r dc o m m a n d - l",textbook_chunk_875,file_systems
+i n e interface on UNIX systems.,textbook_chunk_876,file_systems
+Linux supports many shells; the most common is thebourne-Again shell (bash ).,textbook_chunk_877,file_systems
+18.3 Kernel Modules The Linux kernel has the ability to load and unload arbitrary sections of kernel code on demand.,textbook_chunk_878,file_systems
+These loadable kernel modules run in privileged kernel mode and as a consequence have full access to all the hardware capabilities of the machine on which they run.,textbook_chunk_879,file_systems
+"In theory, there is no restriction on what a kernel module is allowed to do.",textbook_chunk_880,file_systems
+"Among other things, a kernel module can implement ad e v i c ed r i v e r ,aﬁ l es y s t e m ,o ran e t w o r k",textbook_chunk_881,file_systems
+i n gp r o t o c o l .,textbook_chunk_882,file_systems
+Kernel modules are convenient for several reasons.,textbook_chunk_883,file_systems
+"Linuxs source code is free, so anybody wanting to write kernel code is able to compile a modiﬁed kernel and to reboot into that new functionality.",textbook_chunk_884,file_systems
+"However, recompiling, relinking, and reloading the entire kernel is a cumbersome cycle to undertake when you are developing a new driver.",textbook_chunk_885,file_systems
+"If you use kernel modules, you do not have to make a new kernel to test a new driverthe driver can be compiled on its own and loaded into the already running kernel.",textbook_chunk_886,file_systems
+"Of course, once a new driver is written, it can be distributed as a module so that other users can beneﬁt from it without having to rebuild their kernels.",textbook_chunk_887,file_systems
+This latter point has another implication.,textbook_chunk_888,file_systems
+"Because it is covered by the GPL license, the Linux kernel canno tb er e l e a s e dw",textbook_chunk_889,file_systems
+i t hp r o p r i e t a r yc o m p o n e n t s added to it unless those new compone nts are also released under the GPL and the source code for them is made available on demand.,textbook_chunk_890,file_systems
+"The kernels module interface allows third parties to write and distribute, on their own terms, device drivers or ﬁle systems that could not be distributed under the GPL.",textbook_chunk_891,file_systems
+"Kernel modules allow a Linux system to be set up with a standard minimal kernel, without any extra device drivers built in.",textbook_chunk_892,file_systems
+Any device drivers that the user needs can be either loaded explicitly by the system at startup or loaded automatically by the system on demand and unloaded when not in use.,textbook_chunk_893,file_systems
+"For example, a mouse driver can be loaded when a USB mouse is plugged into the system and unloaded when the mouse is unplugged.",textbook_chunk_894,file_systems
+The module support under Linux has four components: 1.The module-management system allows modules to be loaded into memory and to communicate with the rest of the kernel.,textbook_chunk_895,file_systems
+"2.The module loader and unloader ,w h",textbook_chunk_896,file_systems
+i c ha r eu s e r - m o d eu t,textbook_chunk_897,file_systems
+"i t i e s ,w o r k with the module-management system to load a module into memory.",textbook_chunk_898,file_systems
+3.The driver-registration system allows modules to tell the rest of the kernel that a new driver has become available.,textbook_chunk_899,file_systems
+4.Aconﬂict-resolution mechanism allows different device drivers to reserve hardware resources and to protect those resources from accidental use by another driver.,textbook_chunk_900,file_systems
+Module Management Loading a module requires more than just loading its binary contents into kernel memory.,textbook_chunk_901,file_systems
+The system must also make sure that any references the,textbook_chunk_902,file_systems
+The Linux System process copies the pages contents to a brand-new page of physical memory and uses its copy instead.,textbook_chunk_903,memory_management
+This mechanism ensures that private data pages are shared between processes whenever possib le and copies are made only when absolutely necessary.,textbook_chunk_904,memory_management
+18.6.2.3 Swapping and Paging An important task for a virtual memory system is to relocate pages of memory from physical memory out to disk when that memory is needed.,textbook_chunk_905,memory_management
+"Early UNIX systems performed this relocation by swapping out the contents of entire processes at once, but modern versions of UNIX rely more on pagingthe movement of individual pages of virtual memory between physical memory and disk.",textbook_chunk_906,memory_management
+Linux does not implement whole-process swapping; it uses the newer paging mechanism exclusively.,textbook_chunk_907,memory_management
+The paging system can be divided into two sections.,textbook_chunk_908,memory_management
+"First, the policy algorithm decides which pages to write out to disk and when to write them.",textbook_chunk_909,memory_management
+"Second, the paging mechanism carries out the transfer and pages data back into physical memory when they are needed again.",textbook_chunk_910,memory_management
+Linuxs pageout policy uses a modiﬁed version of the standard clock (or second-chance),textbook_chunk_911,memory_management
+algorithm described in Section 9.4.5.2.,textbook_chunk_912,memory_management
+"Under Linux, a multiple- pass clock is used, and every page has an agethat is adjusted on each pass of the clock.",textbook_chunk_913,memory_management
+"The age is more precisely a measure of the pages youthfulness, or how much activity the page has seen recently.",textbook_chunk_914,memory_management
+"Frequently accessed pages will attain a higher age value, but the age of infrequently accessed pages will drop toward zero with each pass.",textbook_chunk_915,memory_management
+This age valuing allows the pager to select pages to page out based on a least frequently used ( LFU)p o l i c y .,textbook_chunk_916,memory_management
+The paging mechanism supports pagin gb o t ht,textbook_chunk_917,memory_management
+"i c a t e ds w a pd e v i c e s and partitions and to normal ﬁles, although swapping to a ﬁle is signiﬁcantly slower due to the extra overhead incurred by the ﬁle system.",textbook_chunk_918,memory_management
+"Blocks are allocated from the swap devices according to a bitmap of used blocks, which is maintained in physical memory at all times.",textbook_chunk_919,memory_management
+The allocator uses a next-ﬁt algorithm to try to write out pages to continuous runs of disk blocks for improved performance.,textbook_chunk_920,memory_management
+"The allocator records the fact that a page has been paged out to disk by using a feature of the page tables on modern processors: the page-table entrys page-not-present bit is set, allowing the rest of the page- table entry to be ﬁlled with an index identifying where the page has been written.",textbook_chunk_921,memory_management
+"18.6.2.4 Kernel Virtual Memory Linux reserves for its own internal use a constant, architecture-dependent region of the virtual address space of every process.",textbook_chunk_922,memory_management
+"The page-table entries that map to these kernel pages are marked as protected, so that the pages are not visible or modiﬁable when the processor is running in user mode.",textbook_chunk_923,memory_management
+This kernel virtual memory area contains two regions.,textbook_chunk_924,memory_management
+"The ﬁrst is a static area that contains page-table references to every available physical page of memory in the system, so that a simple translation from physical to virtual addresses occurs when kernel code is run.",textbook_chunk_925,memory_management
+"The core of the kernel, along with all pages allocated by the normal page allocator, resides in this region.",textbook_chunk_926,memory_management
+rogramming 167 AMDAHLS LAW Amdahls Law is a formula that identiﬁes potential performance gains from adding additional computing cores to an application that has both serial (nonparallel) and parallel components.,textbook_chunk_927,general
+"If Sis the portion of the application that must be performed serially on a system with Nprocessing cores, the formula appears as follows: speedup 1 S(1S) N",textbook_chunk_928,general
+"As an example, assume we have an application that is 75 percent parallel and 25 percent serial.",textbook_chunk_929,general
+"If we run this application on a system with two processing cores, we can get a speedup of 1.6 times.",textbook_chunk_930,general
+"If we add two additional cores (for a total of four), the speedup is 2.28 times.",textbook_chunk_931,general
+"One interesting fact about Amdahls Law is that as Napproaches inﬁnity, the speedup converges to 1 S.F o re x a m p l e ,i f4 0p e r c e n to fa na p p l",textbook_chunk_932,general
+"i o n is performed serially, the maximum speedup is 2.5 times, regardless of the number of processing cores we add.",textbook_chunk_933,general
+This is the fundamental principle behind Amdahls Law: the serial portion of an application can have a disproportionate effect on the performance we gain by adding additional computing cores.,textbook_chunk_934,general
+Some argue that Amdahls Law does not take into account the hardware performance enhancements used in the design of contemporary multicore systems.,textbook_chunk_935,general
+Such arguments suggest Amdahls Law may cease to be applicable as the number of processing cores continues to increase on modern computer systems.,textbook_chunk_936,general
+"the system, thereby allowing each process to make progress.",textbook_chunk_937,general
+"Such processes were running concurrently, but not in parallel.",textbook_chunk_938,general
+"As systems have grown from tens of threads to thousands of threads, CPU designers have improved system performance by adding hardware to improve thread performance.",textbook_chunk_939,general
+"Modern Intel CPUs frequently support two threads per core, while the Oracle T4 CPU supports eight threads per core.",textbook_chunk_940,general
+This support means that multiple threads can be loaded into the core for fast switching.,textbook_chunk_941,general
+Multicore computers will no doubt continue to increase in core counts and hardware thread support.,textbook_chunk_942,general
+4.2.1 Programming Challenges The trend towards multicore systems continues to place pressure on system designers and application programmers to make better use of the multiple computing cores.,textbook_chunk_943,general
+Designers of operating systems must write scheduling algorithms that use multiple processing cores to allow the parallel execution shown in Figure 4.4.,textbook_chunk_944,general
+"For application programmers, the challenge is to modify existing programs as well as design new programs that are multithreaded.",textbook_chunk_945,general
+"In general, ﬁve areas present challenges in programming for multicore systems:",textbook_chunk_946,general
+ain Memory One solution to the problem of external fragmentation is compaction .T,textbook_chunk_947,general
+h e goal is to shufﬂe the memory contents so as to place all free memory together in one large block.,textbook_chunk_948,general
+"Compaction is not always possible, however.",textbook_chunk_949,general
+"If relocation is static and is done at assembly or load time, compaction cannot be done.",textbook_chunk_950,general
+It is possible only if relocation is dynamic and is done at execution time.,textbook_chunk_951,general
+"If addresses are relocated dynamically, relocation r equires only moving the program and data and then changing the base register to reﬂect the new base address.",textbook_chunk_952,general
+"When compaction is possible, we must determine its cost.",textbook_chunk_953,general
+"The simplest compaction algorithm is to move all processes toward one end of memory; all holes move in the other direction, producing one large hole of available memory.",textbook_chunk_954,general
+This scheme can be expensive.,textbook_chunk_955,general
+"Another possible solution to the external-fragmentation problem is to permit the logical address space of the processes to be noncontiguous, thus allowing a process to be allocated physical memory wherever such memory is available.",textbook_chunk_956,general
+Two complementary techniques achieve this solution: segmentation (Section 8.4) and paging (Section 8.5).,textbook_chunk_957,general
+These techniques can also be combined.,textbook_chunk_958,general
+Fragmentation is a general problem in computing that can occur wherever we must manage blocks of data.,textbook_chunk_959,general
+We discuss the topic further in the storage management chapters (Chapters 10 through and 12).,textbook_chunk_960,general
+"8.4 Segmentation As weve already seen, the users view of memory is not the same as the actual physical memory.",textbook_chunk_961,general
+This is equally true of the programmers view of memory.,textbook_chunk_962,general
+"Indeed, dealing with memory in terms of its ph ysical properties is inconvenient to both the operating system and the programmer.",textbook_chunk_963,general
+What if the hardware could provide a memory mechanism that mapped the programmers view to the actual physical memory?,textbook_chunk_964,general
+"The system would have more freedom to manage memory, while the programmer would have a more natural programming environment.",textbook_chunk_965,general
+Segmentation provides such a mechanism.,textbook_chunk_966,general
+"8.4.1 Basic Method Do programmers think of memory as a linear array of bytes, some containing instructions and others containing data?",textbook_chunk_967,general
+Most programmers would say no.,textbook_chunk_968,general
+"Rather, they prefer to view memory as a collection of variable-sized segments, with no necessary ordering among the segments (Figure 8.7).",textbook_chunk_969,general
+"When writing a program, a programmer thinks of it as a main program with a set of methods, procedures, or functions.",textbook_chunk_970,general
+"It may also include various data structures: objects, arrays, stacks, variables, and so on.",textbook_chunk_971,general
+Each of these modules or data elements is referred to by name.,textbook_chunk_972,general
+"The programmer talks about the stack,  the math library, and the main program without caring what addresses in memory these elements occupy.",textbook_chunk_973,general
+She is not concerned with whether the stack is stored before or after the Sqrt() function.,textbook_chunk_974,general
+"Segments vary in length, and the length of each is intrinsically deﬁned by its purpose in the program.",textbook_chunk_975,general
+"Elements within a segment are identiﬁed by their offset from the beginning of the segment: the ﬁrst statement of the program, the seventh stack frame entry in the stack, the ﬁfth instruction of the Sqrt() ,a n ds oo n .",textbook_chunk_976,general
+Segmentation is a memory-management scheme that supports this pro- grammer view of memory.,textbook_chunk_977,general
+A logical address space is a collection of segments.,textbook_chunk_978,general
+"PU Scheduling As a result, the scheduler for a real-time operating system must support a priority-based algorithm with preemption.",textbook_chunk_979,general
+Recall that priority-based schedul- ing algorithms assign each process a priority based on its importance; more important tasks are assigned higher priorities than those deemed less impor- tant.,textbook_chunk_980,general
+"If the scheduler also supports preemption, a process currently running on the CPU will be preempted if a higher-priority process becomes available to run.",textbook_chunk_981,general
+"Preemptive, priority-based scheduling algorithms are discussed in detail in Section 6.3.3, and Section 6.7 presen ts examples of the soft real-time scheduling features of the Linux, Windows, and Solaris operating systems.",textbook_chunk_982,general
+Each of these systems assigns real-time processes the highest scheduling priority.,textbook_chunk_983,general
+"For example, Windows has 32 different priority levels.",textbook_chunk_984,general
+The highest levelspriority values 16 to 31are reserved for real-time processes.,textbook_chunk_985,general
+Solaris and Linux have similar prioritization schemes.,textbook_chunk_986,general
+"Note that providing a preemptive, priority-based scheduler only guaran- tees soft real-time functionality.",textbook_chunk_987,general
+"Hard real-time systems must further guarantee that real-time tasks will be serviced in accord with their deadline requirements, and making such guarantees requires additional scheduling features.",textbook_chunk_988,general
+"In the remainder of this section, we cover scheduling algorithms appropriate for hard real-time systems.",textbook_chunk_989,general
+"Before we proceed with the details of the individual schedulers, however, we must deﬁne certain characteristics of the processes that are to be scheduled.",textbook_chunk_990,general
+"First, the processes are considered periodic .",textbook_chunk_991,general
+"That is, they require the CPU at constant intervals (periods).",textbook_chunk_992,general
+"Once a periodic process has acquired the CPU,i t has a ﬁxed processing time t,ad e a d l",textbook_chunk_993,general
+"i n e dby which it must be serviced by the CPU,a n dap e r i o",textbook_chunk_994,general
+i po ft h ep r o c e s s i n gt,textbook_chunk_995,general
+"i n e ,a n d the period can be expressed as 0 tdp.",textbook_chunk_996,general
+T h e rate of a periodic task is 1 p. Figure 6.15 illustrates the execution of a periodic process over time.,textbook_chunk_997,general
+Schedulers can take advantage of these characteristics and assign priorities according to a processs deadline or rate requirements.,textbook_chunk_998,general
+What is unusual about this form of scheduling is that a process may have to announce its deadline requirements to the scheduler.,textbook_chunk_999,general
+"Then, using a technique known as an admission-control algorithm, the scheduler does one of two things.",textbook_chunk_1000,general
+"It either admits the process, guaranteeing that the process will complete on time, or rejects the request as impossible if it cannot guarantee that the task will be serviced by its deadline.",textbook_chunk_1001,general
+period 1 period 2 period 3Timeppp d,textbook_chunk_1002,general
+d d tt t Figure 6.15 Periodic task.,textbook_chunk_1003,general
+"d File Systems 769 ﬁle is identiﬁed uniquely by the name host:local-name, where local-name is a UNIX -like path.",textbook_chunk_1004,general
+The Internet URL system also uses this approach.,textbook_chunk_1005,general
+This naming scheme is neither location transparent nor location independent.,textbook_chunk_1006,general
+"The DFS is structured as a collection of isolated component units, each of which is an entire conventional ﬁle system.",textbook_chunk_1007,general
+"Component units remain isolated, although means are provided to refer to remote ﬁles.",textbook_chunk_1008,general
+We do not consider this scheme any further here.,textbook_chunk_1009,general
+"The second approach was popularized by Suns network ﬁle system, NFS.NFS is found in many systems, including UNIX and Linux distributions.",textbook_chunk_1010,general
+"NFS provides a means to attach remote directories to local directories, thus giving the appearance of a coherent directory tree.",textbook_chunk_1011,general
+Early NFS versions allowed only previously mounted remote directories to be accessed transparently.,textbook_chunk_1012,general
+The advent of the automount feature allowed mounts to be done on demand based on a table of mount points and ﬁle-structure names.,textbook_chunk_1013,general
+"Components are integrated to support transparent sharing, but this integration is limited and is not uniform, because each machine may attach different remote directories to its tree.",textbook_chunk_1014,general
+The resulting structure is versatile.,textbook_chunk_1015,general
+We can achieve total integration of the component ﬁle systems by using the third approach.,textbook_chunk_1016,general
+"Here, a single global name structure spans all the ﬁles in the system.",textbook_chunk_1017,general
+"Ideally, the composed ﬁle-system structure is the same as the structure of a conventional ﬁle system.",textbook_chunk_1018,general
+"In practice, however, the many special ﬁles (for example, UNIX device ﬁles and machine-speciﬁc binary directories) make this goal difﬁcult to attain.",textbook_chunk_1019,general
+"To evaluate naming structures, we look at their administrative complexity.",textbook_chunk_1020,general
+The most complex and most difﬁcult-to- maintain structure is the NFS structure.,textbook_chunk_1021,general
+"Because any remote directory can be attached anywhere onto the local directory tree, the resulting hierarchy can be highly unstructured.",textbook_chunk_1022,general
+"If a server be comes unavailable, some arbitrary set of directories on different machines becomes unavailable.",textbook_chunk_1023,general
+"In addition, a separate accreditation mechanism controls which machine is allowed to attach which directory to its tree.",textbook_chunk_1024,general
+"Thus, a user might be able to access a remote directory tree on one client but be denied access on another client.",textbook_chunk_1025,general
+17.9.1.3 Implementation Techniques Implementation of transparent naming requires a provision for the mapping of a ﬁle name to the associated location.,textbook_chunk_1026,general
+"To keep this mapping manageable, we must aggregate sets of ﬁles into component units and provide the mapping on a component-unit basis rather than on a single-ﬁle basis.",textbook_chunk_1027,general
+This aggregation serves administrative purposes as well.,textbook_chunk_1028,general
+UNIX -like systems use the hierarchical directory tree to provide name-to-location mapping and to aggregate ﬁles recursively into directories.,textbook_chunk_1029,general
+"To enhance the availability of the crucial mapping information, we can use replication, local caching, or both.",textbook_chunk_1030,general
+"As we noted, location independence means that the mapping changes over time.",textbook_chunk_1031,general
+"Hence, replicating the mapping makes a simple yet consistent update of this information impossible.",textbook_chunk_1032,general
+"To overcome this obstacle, we can introduce low-level, location-independent ﬁle identiﬁers .",textbook_chunk_1033,general
+( O p e n AFSuses this approach.),textbook_chunk_1034,general
+Textual ﬁle names are mapped to lower-level ﬁle identiﬁers that indi cate to which component unit the ﬁle belongs.,textbook_chunk_1035,general
+These identiﬁers are still location independent.,textbook_chunk_1036,general
+They can be replicated and cached freely without being in validated by migration of component,textbook_chunk_1037,general
+"i p r o c e s s o r .I ft h e r ei so n l yo n eg e n e r a l - p u r p o s e CPU, then the system is as i n g l e - p r o c e s s o rs y s t e m .",textbook_chunk_1038,process_management
+"Multiprocessor Systems Within the past several years, multiprocessor systems (also known as parallel systems ormulticore systems ) have begun to dominate the landscape of computing.",textbook_chunk_1039,process_management
+"Such systems have two or more processors in close communication, sharing the computer bus and sometimes the clock, memory, and peripheral devices.",textbook_chunk_1040,process_management
+Multiprocessor systems ﬁrst appeared prominently appeared in servers and have since migrated to desktop and laptop systems.,textbook_chunk_1041,process_management
+"Recently, multiple processors have appeared on mobile devices such as smartphones and tablet computers.",textbook_chunk_1042,process_management
+Multiprocessor systems have three main advantages: 1.Increased throughput .B,textbook_chunk_1043,process_management
+"i n gt h en u m b e ro fp r o c e s s o r s ,w ee x p e c t to get more work done in less time.",textbook_chunk_1044,process_management
+"The speed-up ratio with Nprocessors is not N,however; rather, it is less than N.When multiple processors cooperate on a task, a certain amount of overhead is incurred in keeping all the parts working correctly.",textbook_chunk_1045,process_management
+"This overhead, plus contention for shared resources, lowers the expected gain from additional processors.",textbook_chunk_1046,process_management
+"Similarly, Nprogrammers working closely together do not produce Ntimes the amount of work a single programmer would produce.",textbook_chunk_1047,process_management
+2.Economy of scale .M,textbook_chunk_1048,process_management
+"u l t i p r o c e s s o rs y s t e m sc a nc o s tl e s st h a ne q u i v a l e n t multiple single-processor systems, because they can share peripherals, mass storage, and power supplies.",textbook_chunk_1049,process_management
+"If several programs operate on the same set of data, it is cheaper to store those data on one disk and to have all the processors share them than to have many computers with local disks and many copies of the data.",textbook_chunk_1050,process_management
+3.Increased reliability .,textbook_chunk_1051,process_management
+"If functions can be distributed properly among several processors, then the failure of one processor will not halt the system, only slow it down.",textbook_chunk_1052,process_management
+"If we have ten processors and one fails, then each of the remaining nine processors can pick up a share of the work of the failed processor.",textbook_chunk_1053,process_management
+"Thus, the entire system runs only 10 percent slower, rather than failing altogether.",textbook_chunk_1054,process_management
+Increased reliability of a computer system is crucial in many applications.,textbook_chunk_1055,process_management
+"The ability to continue providing service proportional to the level of surviving hardware is called graceful degradation .S o m es y s t e m sg ob e y o n dg r a c e f u l degradation and are called fault tolerant ,b e c a u s et h e yc a ns u f f e raf a i l u r eo f any single component and still continue operation.",textbook_chunk_1056,process_management
+Fault tolerance requires am e c h,textbook_chunk_1057,process_management
+i s mt oa l l o wt h ef a,textbook_chunk_1058,process_management
+"i l u r et ob ed e t e c t e d ,d",textbook_chunk_1059,process_management
+"i a g n o s e d ,a n d ,i fp o s s i b l e , corrected.",textbook_chunk_1060,process_management
+The HPNonStop (formerly Tandem) system uses both hardware and software duplication to ensure continued operation despite faults.,textbook_chunk_1061,process_management
+"The system consists of multiple pairs of CPUs, working in lockstep.",textbook_chunk_1062,process_management
+Both processors in the pair execute each instruction and compare the results.,textbook_chunk_1063,process_management
+"If the results differ, then one CPU of the pair is at fault, and both are halted.",textbook_chunk_1064,process_management
+"The process that was being executed is then moved to another pair of CPUs, and the instruction that failed",textbook_chunk_1065,process_management

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Answer Grading System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .upload-section {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .upload-section:hover {
+            border-color: #764ba2;
+            background: #f8f9ff;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .error.show {
+            display: block;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-label {
+            cursor: pointer;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .file-label:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .file-name {
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 OS Answer Grading System</h1>
+            <p>Upload course materials and grade student answers automatically</p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="card">
+            <h2>📚 Upload Course Materials</h2>
+            <div class="upload-section">
+                <div class="file-input-wrapper">
+                    <label class="file-label" for="pdfFile">
+                        Choose PDF File
+                    </label>
+                    <input type="file" id="pdfFile" accept=".pdf">
+                </div>
+                <div class="file-name" id="fileName">No file chosen</div>
+                <button onclick="uploadPDF()" style="margin-top: 15px;">Upload to Knowledge Base</button>
+            </div>
+            <div class="loading" id="uploadLoading">
+                <div class="spinner"></div>
+                <p>Uploading and processing...</p>
+            </div>
+            <div class="error" id="uploadError"></div>
+            <div class="result" id="uploadResult"></div>
+        </div>
+
+        <!-- Grading Section -->
+        <div class="card">
+            <h2>✍️ Grade Student Answer</h2>
+            <form onsubmit="gradeAnswer(event)">
+                <div class="form-group">
+                    <label for="question">Question:</label>
+                    <textarea id="question" placeholder="Enter the question..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentAnswer">Student's Answer:</label>
+                    <textarea id="studentAnswer" placeholder="Enter student's answer..." required></textarea>
+                </div>
+                
+                <button type="submit">Grade Answer</button>
+            </form>
+            
+            <div class="loading" id="gradeLoading">
+                <div class="spinner"></div>
+                <p>Grading answer...</p>
+            </div>
+            
+            <div class="error" id="gradeError"></div>
+            
+            <div class="result" id="gradeResult">
+                <h3>📊 Grading Result</h3>
+                <div class="score" id="score"></div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000';
+
+        // File input handler
+        document.getElementById('pdfFile').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'No file chosen';
+            document.getElementById('fileName').textContent = fileName;
+        });
+
+        async function uploadPDF() {
+            const fileInput = document.getElementById('pdfFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showError('uploadError', 'Please select a PDF file');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const loadingEl = document.getElementById('uploadLoading');
+            const errorEl = document.getElementById('uploadError');
+            const resultEl = document.getElementById('uploadResult');
+
+            // Reset states
+            hideElement(errorEl);
+            hideElement(resultEl);
+            showElement(loadingEl);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Upload failed');
+                }
+
+                hideElement(loadingEl);
+                resultEl.innerHTML = `
+                    <h3>✅ Upload Successful!</h3>
+                    <p><strong>File:</strong> ${data.file_name}</p>
+                    <p><strong>Pages processed:</strong> ${data.total_pages}</p>
+                    <p><strong>Chunks created:</strong> ${data.chunks_processed}</p>
+                `;
+                showElement(resultEl);
+                
+                // Reset file input
+                fileInput.value = '';
+                document.getElementById('fileName').textContent = 'No file chosen';
+
+            } catch (error) {
+                hideElement(loadingEl);
+                showError('uploadError', error.message);
+            }
+        }
+
+        async function gradeAnswer(event) {
+            event.preventDefault();
+
+            const question = document.getElementById('question').value;
+            const studentAnswer = document.getElementById('studentAnswer').value;
+
+            const loadingEl = document.getElementById('gradeLoading');
+            const errorEl = document.getElementById('gradeError');
+            const resultEl = document.getElementById('gradeResult');
+
+            // Reset states
+            hideElement(errorEl);
+            hideElement(resultEl);
+            showElement(loadingEl);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/grade`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        student_answer: studentAnswer
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Grading failed');
+                }
+
+                hideElement(loadingEl);
+                
+                // Display result
+                document.getElementById('score').textContent = `${data.score}/5`;
+                document.getElementById('feedback').innerHTML = `<strong>Feedback:</strong><br>${data.feedback}`;
+                showElement(resultEl);
+
+            } catch (error) {
+                hideElement(loadingEl);
+                showError('gradeError', error.message);
+            }
+        }
+
+        function showElement(element) {
+            element.classList.add('show');
+        }
+
+        function hideElement(element) {
+            element.classList.remove('show');
+        }
+
+        function showError(elementId, message) {
+            const errorEl = document.getElementById(elementId);
+            errorEl.textContent = message;
+            showElement(errorEl);
+        }
+    </script>
+</body>
+</html>

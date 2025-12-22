@@ -1,0 +1,79 @@
+[
+  {
+    "question": "What is multithreading and explain its benefits?",
+    "student_answer": "Multithreading allows a program to execute multiple threads concurrently. Benefits include better resource utilization, improved responsiveness, and parallel execution on multicore systems.",
+    "score": 2,
+    "max_score": 5,
+    "topic": "multithreading",
+    "analysis": {
+      "content_score": 2.44,
+      "keyword_matches": [
+        "thread",
+        "multithreading",
+        "concurrent",
+        "parallel"
+      ],
+      "concept_matches": [],
+      "word_count": 22,
+      "strengths": [
+        "Uses relevant terminology: thread, multithreading, concurrent"
+      ],
+      "issues": []
+    },
+    "feedback": "Score: 2/5 - Partially correct but missing key concepts or has significant errors\n\n\u2705 Strengths:\n  \u2022 Uses relevant terminology: thread, multithreading, concurrent\n\n\ud83d\udca1 Suggestions:\n  \u2022 Review the fundamental concepts of this topic\n  \u2022 Make sure your answer directly addresses the question\n  \u2022 Include key terminology and definitions",
+    "rag_context": "It is generally more ef\ufb01cient to use one process that contains multiple threads. This feature is especially bene\ufb01cial on multicore systems, where multiple threads can run in parallel. This feature is especially bene\ufb01cial on multicore systems, where multiple threads can run in parallel.",
+    "timestamp": "2025-08-18T10:11:16.352868"
+  },
+  {
+    "question": "Explain the difference between kernel mode and user mode.",
+    "student_answer": "Kernel mode has full access to hardware and system resources, while user mode has restricted access for security. Programs switch between modes using system calls.",
+    "score": 2,
+    "max_score": 5,
+    "topic": "security",
+    "analysis": {
+      "content_score": 2.5,
+      "keyword_matches": [
+        "security",
+        "kernel",
+        "user",
+        "mode"
+      ],
+      "concept_matches": [],
+      "word_count": 25,
+      "strengths": [
+        "Uses relevant terminology: security, kernel, user"
+      ],
+      "issues": []
+    },
+    "feedback": "Score: 2/5 - Partially correct but missing key concepts or has significant errors\n\n\u2705 Strengths:\n  \u2022 Uses relevant terminology: security, kernel, user\n\n\ud83d\udca1 Suggestions:\n  \u2022 Review the fundamental concepts of this topic\n  \u2022 Make sure your answer directly addresses the question\n  \u2022 Include key terminology and definitions\n  \u2022 Consider mentioning: protection",
+    "rag_context": "We thus need to make a distinction between the Linux kernel and ac o m p l e t eL We thus need to make a distinction between the Linux kernel and ac o m p l e t eL Preemption also affects the design of the operating-system kernel. Preemption also affects the design of the operating-system kernel.",
+    "timestamp": "2025-08-18T10:11:16.367120"
+  },
+  {
+    "question": "What is virtual memory?",
+    "student_answer": "Virtual memory is a technique that uses disk space as an extension of RAM, allowing programs to use more memory than physically available.",
+    "score": 2,
+    "max_score": 5,
+    "topic": "memory_management",
+    "analysis": {
+      "content_score": 2.46,
+      "keyword_matches": [
+        "memory",
+        "ram",
+        "virtual"
+      ],
+      "concept_matches": [
+        "virtual memory"
+      ],
+      "word_count": 23,
+      "strengths": [
+        "Uses relevant terminology: memory, ram, virtual",
+        "Mentions important concepts: virtual memory"
+      ],
+      "issues": []
+    },
+    "feedback": "Score: 2/5 - Partially correct but missing key concepts or has significant errors\n\n\u2705 Strengths:\n  \u2022 Uses relevant terminology: memory, ram, virtual\n  \u2022 Mentions important concepts: virtual memory\n\n\ud83d\udca1 Suggestions:\n  \u2022 Review the fundamental concepts of this topic\n  \u2022 Make sure your answer directly addresses the question\n  \u2022 Include key terminology and definitions",
+    "rag_context": "Virtual memory context .T h ev i r t u a lm e m o r yc o n t e x The run-time mapping from virtual to physical addresses is done by a hardware device called the memory-management unit (MMU ).W A more common method for ensuring reasonable response time is virtual memory ,a technique that allows the exe...",
+    "timestamp": "2025-08-18T10:11:16.383037"
+  }
+]

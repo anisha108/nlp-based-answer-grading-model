@@ -1,0 +1,106 @@
+{
+  "metrics": {
+    "mae": 2.4166666666666665,
+    "exact_match_accuracy": 0.3333333333333333,
+    "within_1_point_accuracy": 0.4166666666666667
+  },
+  "detailed_results": [
+    {
+      "question": "Explain Amdahls Law with formula",
+      "student_answer": "Amdahls Law Identifies performance gains from adding additional cores to an application that has both serial and parallel components",
+      "predicted_score": 0,
+      "actual_score": 3,
+      "difference": 3,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "What is Beladys Anomaly?",
+      "student_answer": "B\u00e9l\u00e1dys anomaly is an anomaly with some page replacement policies increasing the number of page frames resulting in an increase in the number of page faults. It occurs when the First In First Out page replacement is used.",
+      "predicted_score": 5,
+      "actual_score": 5,
+      "difference": 0,
+      "model_feedback": "The answer is valued 55 since the answer it is entirely unrelated to question"
+    },
+    {
+      "question": "Define the term Bit-Vector",
+      "student_answer": "A bit-vector is a specially designed light switch with numerous tiny buttons, used to control the operation of miniature robots in a complex factory setting. Operating systems utilize bit-vectors for memory management tasks, but not in this way.",
+      "predicted_score": 0,
+      "actual_score": 0,
+      "difference": 0,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "What are the various OS components?",
+      "student_answer": "The various system components are  Process management  Main -memory management  File management  IO -system management  Secondary -storage management  Networking  Protection system  Command -interpreter system",
+      "predicted_score": 0,
+      "actual_score": 5,
+      "difference": 5,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "What is the RR scheduling algorithm?",
+      "student_answer": "FCFS stands for First Come First served. In the FCFS scheduling algorithm, the job that arrived first in the ready queue is allocated to the CPU and then the job that came second and so on. FCFS is a non-preemptive scheduling algorithm as a process that holds the CPU until it either terminates or performs IO. Thus, if a longer job has been assigned to the CPU then many shorter jobs after it will have to wait.",
+      "predicted_score": 5,
+      "actual_score": 0,
+      "difference": 5,
+      "model_feedback": "The answer is valued 55 since this is the right answer."
+    },
+    {
+      "question": "What are the tradeoffs involved in rereading code pages from the file system versus using swap space to store them?",
+      "student_answer": "If code pages are stored in swap space, they can be transferred more quickly to main memory. Disks or disk controllers are frequently the bottleneck in modern systems as their individual performance cannot keep up with that of the CPU and system bus.",
+      "predicted_score": 3,
+      "actual_score": 2,
+      "difference": 1,
+      "model_feedback": "The answer is valued 35 since this is the right answer."
+    },
+    {
+      "question": "Discuss three advantages of dynamic (shared) linkage of libraries compared with static linkage. Describe two cases in which static linkage is preferable.",
+      "student_answer": "The primary advantages of shared libraries are that they reduce the memory and disk space used by a system, and they enhance maintainability. When shared libraries are being used by all running programs, there is only one instance of each system library routine on disk, and at most one instance in physical memory. When the library in question is one used by many applications and programs, then the disk and memory savings can be quite substantial. In addition, the startup time for running new programs can be reduced, since many of the common functions needed by that program are likely to be already loaded into physical memory. Maintainability is also a major advantage of dynamic linkage over static. If all running programs use a shared library to access their system library routines, then upgrading those routines, either to add new functionality or to fix bugs, can be done simply by replacing that shared library. There is no need to recompile or relink any applications; any programs loaded after the upgrade is complete will automatically pick up the new versions of the libraries. There are other advantages too. A program that uses shared libraries can often be adapted for specific purposes simply by replacing one or more of its libraries, or even (if the system allows it, and most UNIXs including Linux do) adding a new one at run time. For example, a debugging library can be substituted for a normal one to trace a problem in an application. Shared libraries also allow program binaries to be linked against commercial, proprietary library code without actually including any of that code in the programs final executable file. This is important because on most UNIX systems, many of the standard shared libraries are proprietary, and licensing issues may prevent including that code in executable files to be distributed to third parties.",
+      "predicted_score": 0,
+      "actual_score": 3,
+      "difference": 3,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "What is the use of behavior tab in Ubuntu?",
+      "student_answer": "Through behaviors tab, you can make many changes on the appearance of the desktop  Auto-hide the launcher: You can use this option to reveal the launcher when moving the pointer to the defined hot spot.",
+      "predicted_score": 0,
+      "actual_score": 2,
+      "difference": 2,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "Name two differences between logical and physical addresses",
+      "student_answer": "The major advantage of this scheme is that it is an effective mechanism for code and data sharing. For example, only one copy of an editor or a compiler needs to be kept in memory, and this code can be shared by all processes needing access to the editor or compiler code. Another advantage is protection of code against erroneous modication. The on",
+      "predicted_score": 0,
+      "actual_score": 0,
+      "difference": 0,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "Write short note on file system mounting.",
+      "student_answer": "Mounting a file system, means taking that storage and connecting it to the operating system in a way that its usable as a hierarchical storage device with directories and files. This could be the initial file system or another file system that connects to the root file system at a mount point.",
+      "predicted_score": 0,
+      "actual_score": 5,
+      "difference": 5,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "Define the term dispatch latency",
+      "student_answer": "Dispatch latency is the amount of time it takes for the mail to be delivered from the dispatchers office to the CPU. Operating systems dont rely on physical mail for communication.",
+      "predicted_score": 0,
+      "actual_score": 0,
+      "difference": 0,
+      "model_feedback": "Score:"
+    },
+    {
+      "question": "Describe Bankers algorithm",
+      "student_answer": "Bankers algorithm is one form of deadlock-avoidance in a system. It gets its name from a bankingsystem wherein the bank never allocates available cash in such a way that it can no longer satisfy the needs of all of its customers.",
+      "predicted_score": 0,
+      "actual_score": 5,
+      "difference": 5,
+      "model_feedback": "Score:"
+    }
+  ],
+  "evaluated_at": "2025-08-17T19:21:57.677470"
+}
