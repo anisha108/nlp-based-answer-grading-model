@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Operating Systems Answer Grading System
 
 An AI-powered system that automatically grades operating systems question answers and provides detailed feedback to students using fine-tuned transformer models and Retrieval-Augmented Generation (RAG).
@@ -243,3 +244,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 **Note**: This system is designed for educational purposes. Always review automated grades and provide human oversight for final assessment decisions.# nlp-based-answer-grading-model
+=======
+# nlp-based-answer-grading-model
+A zero-cost, automated short-answer grading system using Retrieval-Augmented Generation (RAG). Built with FastAPI, LangChain, and FAISS, it grades student answers against uploaded textbook PDFs using the open-source Llama-3 model (via Groq).
+>>>>>>> 43175b6fd25153ff45b83ae261f44ef1375c17bf
